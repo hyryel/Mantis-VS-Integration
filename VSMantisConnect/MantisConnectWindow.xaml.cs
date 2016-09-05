@@ -22,10 +22,11 @@ namespace VSMantisConnect
             {
                 OnUpdateStatus("Loading extension...", 0, true);
                 settingView = new Views.SettingsView();
-                _viewList = new List<UserControl> {
-                                                    settingView,
-                                                    new ProjectView(),
-                                                    new MantisEnumView()
+								_viewList = new List<UserControl> {
+																										settingView,
+																										new ProjectView(),
+																										new MantisEnumView(),
+																										new HomeView()
                                                     };
                 foreach (var view in _viewList)
                 {
