@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace VSMantisConnect.Interfaces
 {
-    interface IView
-    {
-        string DisplayName { get; }
-        bool Initialized { get; }
-        void InitializeData();
-    }
+	interface IView
+	{
+		string DisplayName { get; }
+		bool Initialized { get; }
+		void InitializeData();
+	}
 }
