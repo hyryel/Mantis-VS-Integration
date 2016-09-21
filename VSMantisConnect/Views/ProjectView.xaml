@@ -1,56 +1,56 @@
 ﻿<UserControl x:Class="VSMantisConnect.Views.ProjectView"
-xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-xmlns:local="clr-namespace:VSMantisConnect.Views"
-xmlns:ui="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0"
-xmlns:mdl="clr-namespace:MantisConnectAPI;assembly=MantisConnectAPI"
-mc:Ignorable="d" 
-d:DesignHeight="300" d:DesignWidth="300">
+			xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			xmlns:local="clr-namespace:VSMantisConnect.Views"
+			xmlns:ui="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0"
+			xmlns:mdl="clr-namespace:MantisConnectAPI;assembly=MantisConnectAPI"
+			xmlns:vsx="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
+			mc:Ignorable="d" 
+			d:DesignHeight="300" d:DesignWidth="300">
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="25" />
+			<RowDefinition Height="30" />
 			<RowDefinition Height="25*" />
 			<RowDefinition Height="25*" />
 		</Grid.RowDefinitions>
 		<ComboBox Name="cbxProjects" ItemsSource="{Binding}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ComboBoxStyleKey}}" SelectionChanged="cbxProjects_SelectionChanged" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate DataType="mdl:ProjectData">
-					<Label FontWeight="Bold" HorizontalAlignment="Stretch" >
+					<Label FontWeight="Bold" HorizontalAlignment="Stretch" Content="{Binding name}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}">
 						<Label.ToolTip>
-							<ToolTip ContentStringFormat="Description : {0}" Content="{Binding description}" />
+							<ToolTip ContentStringFormat="Description : {0}" Content="{Binding description}" Style="{DynamicResource {x:Static ui:VsResourceKeys.LargeToolTipStyleKey}}" />
 						</Label.ToolTip>
-						<TextBlock Text="{Binding name}" HorizontalAlignment="Stretch" />
 					</Label>
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<ListBox Grid.Row="1" Name="lstIssues" ItemsSource="{Binding}" SelectionChanged="lstIssues_SelectionChanged" >
+		<ListBox Grid.Row="1" Name="lstIssues" ItemsSource="{Binding}" SelectionChanged="lstIssues_SelectionChanged" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogListBoxStyleKey}}" >
 			<ListBox.ItemTemplate>
 				<DataTemplate DataType="mdl:IssueData">
-					<TextBlock Text="{Binding summary}" >
-						<TextBlock.ToolTip>
-							<ToolTip>
+					<Label Content="{Binding summary}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}" >
+						<Label.ToolTip>
+							<ToolTip Style="{DynamicResource {x:Static ui:VsResourceKeys.LargeToolTipStyleKey}}">
 								<StackPanel>
-									<TextBlock Text="{Binding id, StringFormat={}Id : {0} }" FontWeight="Bold" />
-									<TextBlock Text="{Binding description}" />
+									<Label Content="{Binding id, StringFormat={}Id : {0} }" FontWeight="Bold" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}" />
+									<Label Content="{Binding description}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}" />
 								</StackPanel>
 							</ToolTip>
-						</TextBlock.ToolTip>
-					</TextBlock>
+						</Label.ToolTip>
+					</Label>
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
-		<ListBox Grid.Row="2" Name="lstIssueDetail" ItemsSource="{Binding}" AlternationCount="2" ScrollViewer.CanContentScroll="False" >
+		<ListBox Grid.Row="2" Name="lstIssueDetail" ItemsSource="{Binding}" AlternationCount="2" ScrollViewer.CanContentScroll="False" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogListBoxStyleKey}}">
 			<ListBox.Resources>
 				<Style TargetType="ListBoxItem">
 					<Style.Triggers>
-						<Trigger Property="ItemsControl.AlternationIndex" Value="0">
-							<Setter Property="Background" Value="White" />
-						</Trigger>
 						<Trigger Property="ItemsControl.AlternationIndex" Value="1">
-							<Setter Property="Background" Value="#FF52AEFF"  />
+							<Setter Property="Background" Value="{DynamicResource {x:Static ui:VsBrushes.ComboBoxDisabledBackgroundKey}}" />
+						</Trigger>
+						<Trigger Property="ItemsControl.AlternationIndex" Value="0">
+							<Setter Property="Background" Value="{DynamicResource {x:Static ui:VsBrushes.ComboBoxBackgroundKey}}"  />
 						</Trigger>
 					</Style.Triggers>
 				</Style>
@@ -58,13 +58,12 @@ d:DesignHeight="300" d:DesignWidth="300">
 			<ListBox.ItemTemplate>
 				<DataTemplate DataType="mdl:IssueNoteData">
 					<StackPanel HorizontalAlignment="Stretch">
-						<TextBlock Text="{Binding date_submitted, StringFormat={}Date : {0}}" />
+						<Label Content="{Binding date_submitted, StringFormat={}Date : {0}}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}"/>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Rapporteur : " />
-							<TextBlock Text="{Binding reporter.real_name, StringFormat={}{0}}" />
-							<TextBlock Text="{Binding reporter.name, StringFormat={} ({0})}" />
+							<Label Content="Rapporteur : " Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}"/>
+							<Label Content="{Binding reporter.name, StringFormat={}{0}}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}"/>
 						</StackPanel>
-						<TextBlock Text="{Binding text, StringFormat={}Note : {0}}" />
+						<Label Content="{Binding text, StringFormat={}Note : {0}}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}"/>
 					</StackPanel>
 				</DataTemplate>
 			</ListBox.ItemTemplate>

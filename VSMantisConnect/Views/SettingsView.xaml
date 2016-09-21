@@ -37,7 +37,7 @@
         <Label Grid.Row="7" Name="lblPassword" Content="{}{Password}" VerticalAlignment="Center" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}"/>
         <PasswordBox Grid.Row="8" Name="tbxPassword" VerticalAlignment="Center" Margin="2,0" PasswordChanged="tbxPassword_PasswordChanged" Background="{DynamicResource {x:Static ui:VsBrushes.ComboBoxBackgroundKey}}" Foreground="{DynamicResource {x:Static ui:VsBrushes.CaptionTextKey}}" />
         <CheckBox Grid.Row="9" Name="ckbSavePassword" Content="{}{Save password}" VerticalAlignment="Center" Style="{DynamicResource {x:Static ui:VsResourceKeys.CheckBoxStyleKey}}" Checked="control_ValueChanged" Unchecked="control_ValueChanged"/>
-        <Button Grid.Row="10" Name="btnSave" Content="{}{Save}" VerticalAlignment="Center" HorizontalAlignment="Left" Padding="5" Margin="5,0" Click="btnSave_Click" Style="{DynamicResource {x:Static ui:VsResourceKeys.ButtonStyleKey}}" />
-        <Button Grid.Row="10" Name="btnTest" Content="{}{Test connection}" VerticalAlignment="Center" HorizontalAlignment="Right" Padding="5" Margin="5,0" Click="btnTest_Click" Style="{DynamicResource {x:Static ui:VsResourceKeys.ButtonStyleKey}}" />
+        <Button Grid.Row="10" Name="btnSave" Content="{}{Save}" VerticalAlignment="Center" HorizontalAlignment="Left" Padding="5" Margin="5,0" Click="btnSave_Click" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogButtonStyleKey}}" />
+		<Button Grid.Row="10" Name="btnTest" Content="{}{Test connection}" VerticalAlignment="Center" HorizontalAlignment="Right" Padding="5" Margin="5,0" Click="btnTest_Click" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogButtonStyleKey}}" />
     </Grid>
 </UserControl>

@@ -26,7 +26,7 @@ namespace VSMantisConnect
 		{
 			try
 			{
-				stsLabel.Dispatcher.InvokeAsync(() => stsLabel.Text = e.StatusInfo);
+				stsLabel.Dispatcher.InvokeAsync(() => stsLabel.Content = e.StatusInfo);
 				stsProgress.Dispatcher.InvokeAsync(() =>
 				{
 					stsProgress.Value = (e.StatusPercentage >= 0 && e.StatusPercentage <= 100) ? e.StatusPercentage : 0;

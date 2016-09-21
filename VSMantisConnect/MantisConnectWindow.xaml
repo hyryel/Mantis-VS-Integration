@@ -4,18 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ui="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0"
+			 xmlns:ui2="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
              mc:Ignorable="d" Loaded="UserControl_Loaded"
              d:DesignHeight="250" d:DesignWidth="300">
-    <DockPanel LastChildFill="True">
-        <ComboBox Name="cbxViewSelector" DockPanel.Dock="Top" Height="30" FontSize="12" SelectionChanged="cbxViewSelector_SelectionChanged" ItemsSource="{Binding}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ComboBoxStyleKey}}">
-        </ComboBox>
-        <StatusBar DockPanel.Dock="Bottom" BorderBrush="{DynamicResource {x:Static ui:VsBrushes.DropDownBorderKey}}" >
-            <TextBlock Name="stsLabel" Text="Status..." Style="{DynamicResource {x:Static ui:VsResourceKeys.TextBlockEnvironmentBoldStyleKey}}" />
-            <StatusBarItem x:Name="statusBarItem" HorizontalAlignment="Stretch">
-                <ProgressBar Name="stsProgress" Value="50" Maximum="100" Width="{Binding ActualWidth, ElementName=statusBarItem, Mode=OneWay}"  Height="15" Template="{DynamicResource {x:Static ui:VsResourceKeys.ProgressBarTemplateKey}}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ProgressBarStyleKey}}" />
-            </StatusBarItem>
-        </StatusBar>
-        <Grid Name="contentGrid" Margin="0,10,0,0">
-        </Grid>
-    </DockPanel>
+	<UserControl.Resources>
+	</UserControl.Resources>
+	<DockPanel LastChildFill="True">
+		<ComboBox Name="cbxViewSelector" DockPanel.Dock="Top" Height="30" FontSize="12" SelectionChanged="cbxViewSelector_SelectionChanged" ItemsSource="{Binding}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ComboBoxStyleKey}}"  >
+		</ComboBox>
+		<ProgressBar Name="stsProgress" DockPanel.Dock="Top" Value="50" Maximum="100" Height="3" Template="{DynamicResource {x:Static ui:VsResourceKeys.ProgressBarTemplateKey}}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ProgressBarStyleKey}}" />
+		<Label DockPanel.Dock="Bottom" Name="stsLabel" Content="Status..." Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}" />
+		<Grid Name="contentGrid" Margin="0,10,0,0">
+		</Grid>
+	</DockPanel>
 </UserControl>

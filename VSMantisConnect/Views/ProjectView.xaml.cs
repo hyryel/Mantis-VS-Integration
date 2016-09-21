@@ -34,12 +34,14 @@ namespace VSMantisConnect.Views
 			{
 				OnUpdateStatus("Retrieving user's project list...", 0, true);
 				_projectList = await MantisClient.Instance.GetProjectsForUser();
+				Dictionary<ProjectData, int> dico = new Dictionary<ProjectData, int>();
 				foreach (var item in _projectList)
 				{
 					var issues = await MantisClient.Instance.GetIssuesForUserByProjet(item.id);
 					item.name = string.Format("{0} ({1})", item.name, issues.Length);
+					dico.Add(item, issues.Count());
 				}
-				await cbxProjects.Dispatcher.InvokeAsync(() => cbxProjects.DataContext = _projectList);
+				await cbxProjects.Dispatcher.InvokeAsync(() => cbxProjects.DataContext = dico.OrderByDescending( kvp => kvp.Value).Select( kvp => kvp.Key) );
 				_initialized = true;
 				OnUpdateStatus("Project list loaded", 100, false);
 			}
@@ -108,7 +110,6 @@ namespace VSMantisConnect.Views
 			OnUpdateStatus("Loading issue detail...", 0, true);
 			try
 			{
-
 				if (e.AddedItems.Count > 0)
 				{
 					IssueData item = e.AddedItems[0] as IssueData;
