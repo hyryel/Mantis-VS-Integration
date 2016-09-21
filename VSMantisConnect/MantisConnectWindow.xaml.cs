@@ -47,20 +47,40 @@ namespace VSMantisConnect
 		{
 			View_UpdateStatus(this, new Interfaces.StatusUpdatedEventArgs(info, percentage, isIndeterminate));
 		}
-		private void cbxViewSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private async void cbxViewSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
+			
 			try
 			{
 				OnUpdateStatus("Loading view...", 0, true);
 				contentGrid.Children.Clear();
-			var v = _viewList.FirstOrDefault(u => (u as IView).DisplayName == cbxViewSelector.SelectedItem.ToString());
-			if (!(v as IView).Initialized)
-			{
-				OnUpdateStatus($"Initializing {(v as IView).DisplayName}", 0, true);
-				(v as IView).InitializeData();
-			}
-			contentGrid.Children.Add(v);
+				var v = _viewList.FirstOrDefault(u => (u as IView).DisplayName == cbxViewSelector.SelectedItem.ToString());
+				if (!(v as IView).Initialized)
+				{
+					OnUpdateStatus($"Initializing {(v as IView).DisplayName}", 0, true);
+					if (Properties.Settings.Default.ExtensionConfigured)
+					{
+						await Task.Run(() => (v as IView).InitializeData());
+					}
+					else
+					{
+						throw new System.Configuration.ConfigurationException("Veuillez configurer l'extension avant d'accèder à une vue");
+					}
+				}
+				contentGrid.Children.Add(v);
 				OnUpdateStatus($"View {(v as IView).DisplayName} loaded", 100, false);
+			}
+			catch (System.Configuration.ConfigurationException cer)
+			{
+				if (!(settingView as IView).Initialized)
+				{
+					settingView.InitializeData();
+				}
+				contentGrid.Children.Add(settingView);
+				
+				cbxViewSelector.SelectedItem = (settingView as IView).DisplayName;
+				OnUpdateStatus("Configurez l'extension", 100, false);
+				DisplayError(cer);
 			}
 			catch (Exception ex)
 			{
@@ -81,7 +101,7 @@ namespace VSMantisConnect
 													new ProjectView(),
 													new MantisEnumView(),
 													new HomeView()
-												   };
+												};
 			foreach (var view in _viewList)
 			{
 				if (view is Interfaces.IStatusUpdater)

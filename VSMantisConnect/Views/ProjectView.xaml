@@ -14,44 +14,57 @@ d:DesignHeight="300" d:DesignWidth="300">
 			<RowDefinition Height="25*" />
 			<RowDefinition Height="25*" />
 		</Grid.RowDefinitions>
-		<ComboBox Name="cbxProjects" VerticalAlignment="Center" ItemsSource="{Binding}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ComboBoxStyleKey}}" SelectionChanged="cbxProjects_SelectionChanged" >
+		<ComboBox Name="cbxProjects" ItemsSource="{Binding}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ComboBoxStyleKey}}" SelectionChanged="cbxProjects_SelectionChanged" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate DataType="mdl:ProjectData">
-					<StackPanel IsEnabled="{Binding enabled}" HorizontalAlignment="Stretch">
-						<StackPanel.ToolTip>
+					<Label FontWeight="Bold" HorizontalAlignment="Stretch" >
+						<Label.ToolTip>
 							<ToolTip ContentStringFormat="Description : {0}" Content="{Binding description}" />
-						</StackPanel.ToolTip>
-						<TextBlock Grid.Row="0" Text="{Binding name}" FontWeight="Bold" />
-						<TextBlock Grid.Row="1" Text="{Binding status.name}" />
-					</StackPanel>
+						</Label.ToolTip>
+						<TextBlock Text="{Binding name}" HorizontalAlignment="Stretch" />
+					</Label>
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<ListBox Grid.Row="1" Name="lstIssues" ItemsSource="{Binding}" SelectionChanged="lstIssues_SelectionChanged">
+		<ListBox Grid.Row="1" Name="lstIssues" ItemsSource="{Binding}" SelectionChanged="lstIssues_SelectionChanged" >
 			<ListBox.ItemTemplate>
 				<DataTemplate DataType="mdl:IssueData">
-					<StackPanel HorizontalAlignment="Stretch">
-						<TextBlock Text="{Binding summary}" />
-					</StackPanel>
+					<TextBlock Text="{Binding summary}" >
+						<TextBlock.ToolTip>
+							<ToolTip>
+								<StackPanel>
+									<TextBlock Text="{Binding id, StringFormat={}Id : {0} }" FontWeight="Bold" />
+									<TextBlock Text="{Binding description}" />
+								</StackPanel>
+							</ToolTip>
+						</TextBlock.ToolTip>
+					</TextBlock>
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
-		<ListBox Grid.Row="2" Name="lstProjectFilter" ItemsSource="{Binding}" >
+		<ListBox Grid.Row="2" Name="lstIssueDetail" ItemsSource="{Binding}" AlternationCount="2" ScrollViewer.CanContentScroll="False" >
+			<ListBox.Resources>
+				<Style TargetType="ListBoxItem">
+					<Style.Triggers>
+						<Trigger Property="ItemsControl.AlternationIndex" Value="0">
+							<Setter Property="Background" Value="White" />
+						</Trigger>
+						<Trigger Property="ItemsControl.AlternationIndex" Value="1">
+							<Setter Property="Background" Value="#FF52AEFF"  />
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+			</ListBox.Resources>
 			<ListBox.ItemTemplate>
-				<DataTemplate DataType="mdl:FilterData">
+				<DataTemplate DataType="mdl:IssueNoteData">
 					<StackPanel HorizontalAlignment="Stretch">
-						<TextBlock Text="{Binding access_min}" />
-						<TextBlock Text="{Binding description}" />
-						<TextBlock Text="{Binding enabled}" />
-						<TextBlock Text="{Binding enabledSpecified}" />
-						<TextBlock Text="{Binding file_path}" />
-						<TextBlock Text="{Binding id}" />
-						<TextBlock Text="{Binding inherit_global}" />
-						<TextBlock Text="{Binding inherit_globalspecified}" />
-						<TextBlock Text="{Binding name}" />
-						<TextBlock Text="{Binding status}" />
-						<TextBlock Text="{Binding subprojects}" />
-						<TextBlock Text="{Binding view_state}" />
+						<TextBlock Text="{Binding date_submitted, StringFormat={}Date : {0}}" />
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Rapporteur : " />
+							<TextBlock Text="{Binding reporter.real_name, StringFormat={}{0}}" />
+							<TextBlock Text="{Binding reporter.name, StringFormat={} ({0})}" />
+						</StackPanel>
+						<TextBlock Text="{Binding text, StringFormat={}Note : {0}}" />
 					</StackPanel>
 				</DataTemplate>
 			</ListBox.ItemTemplate>
