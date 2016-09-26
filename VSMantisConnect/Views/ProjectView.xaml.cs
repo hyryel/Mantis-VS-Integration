@@ -41,7 +41,7 @@ namespace VSMantisConnect.Views
 					item.name = string.Format("{0} ({1})", item.name, issues.Length);
 					dico.Add(item, issues.Count());
 				}
-				await cbxProjects.Dispatcher.InvokeAsync(() => cbxProjects.DataContext = dico.OrderByDescending( kvp => kvp.Value).Select( kvp => kvp.Key) );
+				await cbxProjects.Dispatcher.InvokeAsync(() => cbxProjects.DataContext = dico.OrderByDescending(kvp => kvp.Value).Select(kvp => kvp.Key));
 				_initialized = true;
 				OnUpdateStatus("Project list loaded", 100, false);
 			}
@@ -55,7 +55,6 @@ namespace VSMantisConnect.Views
 		}
 
 		ProjectData[] _projectList;
-		IssueData[] _projectIssues;
 		#region Interface implementation
 		public string DisplayName
 		{
@@ -83,52 +82,17 @@ namespace VSMantisConnect.Views
 			}
 		}
 		#endregion
-
-		private async void cbxProjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void lstIssues_StatusUpdated(object sender, UpdateInfoRoutedEventArgs e)
 		{
-			OnUpdateStatus("Loading issues...", 0, true);
-			try
-			{
-				ProjectData item = e.AddedItems[0] as ProjectData;
-				if (item != null)
-				{
-					_projectIssues = await MantisClient.Instance.GetIssuesForUserByProjet(item.id);
-					lstIssues.DataContext = _projectIssues.OrderByDescending( p => p.id);
-					lstIssueDetail.DataContext = null;
-				}
-				OnUpdateStatus("Issues loaded", 100, false);
-			}
-			catch (Exception ex)
-			{
-				OnUpdateStatus("Error loading issues", 0, false);
-				throw ex;
-			}
+			OnUpdateStatus(e.Message, e.Percentage, e.IsIndeterminate);
 		}
 
-		private void lstIssues_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void lstIssues_IssueSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			OnUpdateStatus("Loading issue detail...", 0, true);
-			try
-			{
-				if (e.AddedItems.Count > 0)
-				{
-					IssueData item = e.AddedItems[0] as IssueData;
-					if (item != null && item.notes != null)
-					{
-						lstIssueDetail.DataContext = item.notes.Where( n => n.text.Trim().Length > 0).OrderByDescending( n=> n.date_submitted).ToList();
-					}
-					else
-					{
-						lstIssueDetail.DataContext = null;
-					}
-				}
-				OnUpdateStatus("Issues detail loaded", 100, false);
-			}
-			catch (Exception ex)
-			{
-				OnUpdateStatus("Error loading issue detail", 0, false);
-				throw ex;
-			}
+			//if (e.AddedItems.Count > 0)
+			//{
+			//	detIssue.CurrentIssue = e.AddedItems[0] as IssueData;
+			//}
 		}
 	}
 }

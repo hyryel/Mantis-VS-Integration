@@ -80,6 +80,11 @@ namespace VSMantisConnect.Interfaces
 			return await Client.mc_project_get_issues_for_userAsync(_usr, _pwd, projectId.ToString(), "assigned", usr.account_data, "0", "-1");
 		}
 
+		public async Task<IssueData> GetIssueById(string issueId)
+		{
+			return await Client.mc_issue_getAsync(_usr, _pwd, issueId);
+		}
+
 		public async Task<Dictionary<string, ObjectRef[]>> GetAllMantisEnum()
 		{
 			Dictionary<string, ObjectRef[]> enums = new Dictionary<string, ObjectRef[]>();

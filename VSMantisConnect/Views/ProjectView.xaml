@@ -15,7 +15,7 @@
 			<RowDefinition Height="25*" />
 			<RowDefinition Height="25*" />
 		</Grid.RowDefinitions>
-		<ComboBox Name="cbxProjects" ItemsSource="{Binding}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ComboBoxStyleKey}}" SelectionChanged="cbxProjects_SelectionChanged" >
+		<ComboBox Name="cbxProjects" ItemsSource="{Binding}" SelectedValuePath="id" Style="{DynamicResource {x:Static ui:VsResourceKeys.ComboBoxStyleKey}}" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate DataType="mdl:ProjectData">
 					<Label FontWeight="Bold" HorizontalAlignment="Stretch" Content="{Binding name}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}">
@@ -26,47 +26,7 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<ListBox Grid.Row="1" Name="lstIssues" ItemsSource="{Binding}" SelectionChanged="lstIssues_SelectionChanged" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogListBoxStyleKey}}" >
-			<ListBox.ItemTemplate>
-				<DataTemplate DataType="mdl:IssueData">
-					<Label Content="{Binding summary}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}" >
-						<Label.ToolTip>
-							<ToolTip Style="{DynamicResource {x:Static ui:VsResourceKeys.LargeToolTipStyleKey}}">
-								<StackPanel>
-									<Label Content="{Binding id, StringFormat={}Id : {0} }" FontWeight="Bold" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}" />
-									<Label Content="{Binding description}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}" />
-								</StackPanel>
-							</ToolTip>
-						</Label.ToolTip>
-					</Label>
-				</DataTemplate>
-			</ListBox.ItemTemplate>
-		</ListBox>
-		<ListBox Grid.Row="2" Name="lstIssueDetail" ItemsSource="{Binding}" AlternationCount="2" ScrollViewer.CanContentScroll="False" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogListBoxStyleKey}}">
-			<ListBox.Resources>
-				<Style TargetType="ListBoxItem">
-					<Style.Triggers>
-						<Trigger Property="ItemsControl.AlternationIndex" Value="1">
-							<Setter Property="Background" Value="{DynamicResource {x:Static ui:VsBrushes.ComboBoxDisabledBackgroundKey}}" />
-						</Trigger>
-						<Trigger Property="ItemsControl.AlternationIndex" Value="0">
-							<Setter Property="Background" Value="{DynamicResource {x:Static ui:VsBrushes.ComboBoxBackgroundKey}}"  />
-						</Trigger>
-					</Style.Triggers>
-				</Style>
-			</ListBox.Resources>
-			<ListBox.ItemTemplate>
-				<DataTemplate DataType="mdl:IssueNoteData">
-					<StackPanel HorizontalAlignment="Stretch">
-						<Label Content="{Binding date_submitted, StringFormat={}Date : {0}}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}"/>
-						<StackPanel Orientation="Horizontal">
-							<Label Content="Rapporteur : " Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}"/>
-							<Label Content="{Binding reporter.name, StringFormat={}{0}}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}"/>
-						</StackPanel>
-						<Label Content="{Binding text, StringFormat={}Note : {0}}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}"/>
-					</StackPanel>
-				</DataTemplate>
-			</ListBox.ItemTemplate>
-		</ListBox>
+		<local:IssuesList Grid.Row="1" x:Name="lstIssues" ProjectId="{Binding SelectedValue, ElementName=cbxProjects}" StatusUpdated="lstIssues_StatusUpdated" IssueSelectionChanged="lstIssues_IssueSelectionChanged" />
+		<local:IssueDetail Grid.Row="2" x:Name="detIssue" CurrentIssue="{Binding ElementName=lstIssues, Path=SelectedIssue, Mode=OneWay}" StatusUpdated="lstIssues_StatusUpdated" />
 	</Grid>
 </UserControl>
