@@ -73,7 +73,8 @@ namespace VSMantisConnect.Views
 			OnUpdateStatus("Loading issue detail...", 0, true);
 			try
 			{
-				if (CurrentIssue != null && CurrentIssue.notes != null )
+				btnAddNote.IsEnabled = CurrentIssue != null;
+				if (CurrentIssue != null && CurrentIssue.notes != null)
 				{
 
 					lstIssueDetail.DataContext = CurrentIssue.notes.Where(n => n.text.Trim().Length > 0).OrderByDescending(n => n.date_submitted).ToList();

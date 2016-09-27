@@ -5,10 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VSMantisConnect.Views"
 			 xmlns:ui="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0"
+			 xmlns:vs="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-		<ListBox Grid.Row="2" Name="lstIssueDetail" ItemsSource="{Binding}" AlternationCount="2" ScrollViewer.CanContentScroll="False" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogListBoxStyleKey}}">
+	<DockPanel LastChildFill="True">
+		<TextBox x:Name="tbxNewNote" AcceptsReturn="True" AcceptsTab="True" DockPanel.Dock="Top" MinLines="3" SpellCheck.IsEnabled="True" Foreground="{DynamicResource {x:Static ui:VsBrushes.InfoTextKey}}" Background="{DynamicResource {x:Static ui:VsBrushes.InfoBackgroundKey}}" />
+		<WrapPanel DockPanel.Dock="Top" Margin="2">
+			<Button x:Name="btnAddNote" IsEnabled="False" Content="{}{Add note}" DockPanel.Dock="Top" Style="{DynamicResource {x:Static ui:VsResourceKeys.ButtonStyleKey}}" />
+		</WrapPanel>
+		<ListBox DockPanel.Dock="Top"  Name="lstIssueDetail" ItemsSource="{Binding}" AlternationCount="2" ScrollViewer.CanContentScroll="False" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogListBoxStyleKey}}">
 			<ListBox.Resources>
 				<Style TargetType="ListBoxItem">
 					<Style.Triggers>
@@ -36,5 +41,5 @@
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
-	</Grid>
+	</DockPanel>
 </UserControl>
