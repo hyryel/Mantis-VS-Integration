@@ -73,5 +73,9 @@ namespace VSMantisConnect.Views
 				throw ex;
 			}
 		}
+
+		public void LocalizeUI()
+		{
+		}
 	}
 }

@@ -56,5 +56,10 @@ namespace VSMantisConnect.Views
 				{
 						//TODO : initialize tickets
 				}
+
+		public void LocalizeUI()
+		{
+			
 		}
+	}
 }

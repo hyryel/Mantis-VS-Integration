@@ -49,26 +49,30 @@ namespace VSMantisConnect
 		}
 		private async void cbxViewSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			
+
 			try
 			{
-				OnUpdateStatus("#Loading view...#", 0, true);
+				if (e.AddedItems.Count <= 0)
+				{
+					return;
+				}
+				OnUpdateStatus(LocalizationHelper.GetString("MantisConnectWindowLoadingView"), 0, true);
 				contentGrid.Children.Clear();
-				var v = _viewList.FirstOrDefault(u => (u as IView).DisplayName == cbxViewSelector.SelectedItem.ToString());
+				var v = _viewList.FirstOrDefault(vue => (vue as IView).DisplayName == cbxViewSelector.SelectedValue.ToString());
 				if (!(v as IView).Initialized)
 				{
-					OnUpdateStatus($"#Initializing {(v as IView).DisplayName}#", 0, true);
+					OnUpdateStatus(LocalizationHelper.GetString("MantisConnectWindowViewInitializing", (v as IView).DisplayName), 0, true);
 					if (Properties.Settings.Default.ExtensionConfigured)
 					{
 						await Task.Run(() => (v as IView).InitializeData());
 					}
 					else
 					{
-						throw new System.Configuration.ConfigurationException("#Veuillez configurer l'extension avant d'accèder à une vue#");
+						throw new System.Configuration.ConfigurationException(LocalizationHelper.GetString("ErrExtensionNotConfigured"));
 					}
 				}
 				contentGrid.Children.Add(v);
-				OnUpdateStatus($"#View {(v as IView).DisplayName} loaded#", 100, false);
+				OnUpdateStatus(LocalizationHelper.GetString("MantisConnectWindowViewLoaded", (v as IView).DisplayName), 100, false);
 			}
 			catch (System.Configuration.ConfigurationException cer)
 			{
@@ -77,40 +81,54 @@ namespace VSMantisConnect
 					settingView.InitializeData();
 				}
 				contentGrid.Children.Add(settingView);
-				
+
 				cbxViewSelector.SelectedItem = (settingView as IView).DisplayName;
-				OnUpdateStatus("#Configurez l'extension#", 100, false);
+				OnUpdateStatus(LocalizationHelper.GetString("ErrExtensionNotConfigured"), 100, false);
 				DisplayError(cer);
 			}
 			catch (Exception ex)
 			{
-				OnUpdateStatus("#Error loading view#", 0, false);
+				OnUpdateStatus(LocalizationHelper.GetString("MantisConnectWindowErrorLoadingView"), 0, false);
 				DisplayError(ex);
 			}
 		}
 		private void DisplayError(Exception ex)
 		{
-			Microsoft.VisualStudio.PlatformUI.MessageDialog.Show("#ERROR#", ex.ToString(), Microsoft.VisualStudio.PlatformUI.MessageDialogCommandSet.Ok);
+			Microsoft.VisualStudio.PlatformUI.MessageDialog.Show(LocalizationHelper.GetString("ERROR"), ex.ToString(), Microsoft.VisualStudio.PlatformUI.MessageDialogCommandSet.Ok);
 		}
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 
 			settingView = new Views.SettingsView();
+			settingView.SettingsUpdated += SettingView_SettingsUpdated;
 			_viewList = new List<UserControl> {
-													settingView,
-													new ProjectView(),
-													new MantisEnumView(),
-													new HomeView()
-												};
-			foreach (var view in _viewList)
-			{
-				if (view is Interfaces.IStatusUpdater)
-				{
-					(view as Interfaces.IStatusUpdater).UpdateStatus += View_UpdateStatus;
-				}
-			}
-			cbxViewSelector.DataContext = _viewList.Where(v => v is Interfaces.IView).Select(v => (v as Interfaces.IView).DisplayName);
+												settingView
+												, new ProjectView()
+												, new MantisEnumView()
+												, new HomeView()};
 
+			LocalizeUI();
+			foreach (IStatusUpdater view in _viewList.OfType<IStatusUpdater>())
+			{
+				view.UpdateStatus += View_UpdateStatus;
+			}
+			OnUpdateStatus(LocalizationHelper.GetString("MantisConnectWindowLoaded"), 0, false);
+		}
+
+		private void SettingView_SettingsUpdated(object sender, EventArgs e)
+		{
+			LocalizeUI();
+		}
+
+		private void LocalizeUI()
+		{
+			int idx = cbxViewSelector.SelectedIndex;
+			cbxViewSelector.DataContext = _viewList.Where(v => v is Interfaces.IView).Select( v => (v as IView).DisplayName);
+			cbxViewSelector.SelectedIndex = idx;
+			foreach (IView item in _viewList.OfType<IView>())
+			{
+				item.LocalizeUI();
+			}
 		}
 	}
 }

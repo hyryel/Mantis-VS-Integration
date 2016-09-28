@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VSMantisConnect.Interfaces;
 using MantisConnectAPI;
+using System.Globalization;
 
 namespace VSMantisConnect.Views
 {
@@ -25,7 +26,7 @@ namespace VSMantisConnect.Views
 		// Using a DependencyProperty as the backing store for HasChanged.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty HasChangedProperty = DependencyProperty.RegisterAttached("HasChanged", typeof(bool), typeof(SettingsView), new PropertyMetadata(false));
 		public event EventHandler<StatusUpdatedEventArgs> UpdateStatus;
-
+		public event EventHandler SettingsUpdated;
 		public bool HasChanged
 		{
 			get { return (bool)GetValue(HasChangedProperty); }
@@ -33,7 +34,7 @@ namespace VSMantisConnect.Views
 			{
 				SetValue(HasChangedProperty, value);
 				if (value)
-					OnUpdateStatus("#Settings changed. Don't forget to save#", 0, false);
+					OnUpdateStatus(LocalizationHelper.GetString("SettingsViewSettingsChanged"), 0, false);
 				UpdateSaveButtonState();
 			}
 		}
@@ -41,7 +42,7 @@ namespace VSMantisConnect.Views
 		{
 			get
 			{
-				return "#Settings#";
+				return LocalizationHelper.GetString("SettingsViewDisplayName");
 			}
 		}
 		bool _initialized;
@@ -69,11 +70,13 @@ namespace VSMantisConnect.Views
 
 		public void InitializeData()
 		{
-			OnUpdateStatus("#Loading Settings#", 0, true);
+			OnUpdateStatus(LocalizationHelper.GetString("SettingsViewLoading"), 0, true);
 			try
 			{
 				this.Dispatcher.InvokeAsync(() =>
 				{
+					cbxLanguage.DataContext = new CultureInfo[] { new CultureInfo("fr"), new CultureInfo("en") };
+					cbxLanguage.SelectedItem = Properties.Settings.Default.Language;
 					tbxBaseUrl.Text = Properties.Settings.Default.BaseUrl;
 					tbxEndPointAddress.Text = "/api/soap/mantisconnect.php";
 					if (Properties.Settings.Default.CustomizeEndPointAddress)
@@ -89,13 +92,13 @@ namespace VSMantisConnect.Views
 					ckbCustomizeEndPoint.IsChecked = Properties.Settings.Default.CustomizeEndPointAddress;
 					ckbSavePassword.IsChecked = Properties.Settings.Default.SavePassword;
 					HasChanged = false;
-					OnUpdateStatus("#Settings loaded#", 0, false);
+					OnUpdateStatus(LocalizationHelper.GetString("SettingsViewLoaded"), 0, false);
 					_initialized = true;
 				});
 			}
 			catch (Exception ex)
 			{
-				OnUpdateStatus("#Loading settings failed.#", 0, false);
+				OnUpdateStatus(LocalizationHelper.GetString("SettingsViewErrorLoading"), 0, false);
 				_initialized = false;
 				throw ex;
 			}
@@ -123,7 +126,7 @@ namespace VSMantisConnect.Views
 					Properties.Settings.Default.EndPointAddress = "/api/soap/mantisconnect.php";
 				}
 				Properties.Settings.Default.ExtensionConfigured = true;
-				Properties.Settings.Default.Language = System.Globalization.CultureInfo.GetCultureInfo("en-US");
+				Properties.Settings.Default.Language = cbxLanguage.SelectedItem as CultureInfo;
 				if (ckbSavePassword.IsChecked.Value)
 				{
 					//TODO : encrypt password and create GetPassword and SetPassword
@@ -135,15 +138,18 @@ namespace VSMantisConnect.Views
 				}
 				Properties.Settings.Default.SavePassword = ckbSavePassword.IsChecked.Value;
 				Properties.Settings.Default.UserName = tbxUsername.Text;
-
 				Properties.Settings.Default.Save();
-				OnUpdateStatus("#Settings saved#", 100, false);
+				OnUpdateStatus(LocalizationHelper.GetString("SettingsViewSettingsSaved"), 100, false);
 				HasChanged = false;
+				if (SettingsUpdated != null)
+				{
+					SettingsUpdated(this, EventArgs.Empty);
+				}
 				MantisClient.Instance.UpdateServiceConfiguration();
 			}
 			catch (Exception ex)
 			{
-				Microsoft.VisualStudio.PlatformUI.MessageDialog.Show("#Error#", ex.Message, Microsoft.VisualStudio.PlatformUI.MessageDialogCommandSet.Ok);
+				Microsoft.VisualStudio.PlatformUI.MessageDialog.Show(LocalizationHelper.GetString("ERROR"), ex.Message, Microsoft.VisualStudio.PlatformUI.MessageDialogCommandSet.Ok);
 			}
 		}
 		private void control_ValueChanged(object sender, RoutedEventArgs e)
@@ -152,25 +158,43 @@ namespace VSMantisConnect.Views
 		}
 		private async void btnTest_Click(object sender, RoutedEventArgs e)
 		{
-			OnUpdateStatus("#Testing connection...#", 0, true);
+			OnUpdateStatus(LocalizationHelper.GetString("SettingsViewTestingConnection"), 0, true);
 			try
 			{
 				UserData data = await MantisClient.Instance.Login();
 				if (data != null)
 				{
-					Microsoft.VisualStudio.PlatformUI.MessageDialog.Show("#Success#", $"#User {data.account_data.name} successfully connected#", Microsoft.VisualStudio.PlatformUI.MessageDialogCommandSet.Ok);
+					Microsoft.VisualStudio.PlatformUI.MessageDialog.Show(LocalizationHelper.GetString("SUCCESS"), LocalizationHelper.GetString("SettingsViewTestingSuccessMessage", data.account_data.name), Microsoft.VisualStudio.PlatformUI.MessageDialogCommandSet.Ok);
 				}
-				OnUpdateStatus("#Connection success.#", 100, false);
+				OnUpdateStatus(LocalizationHelper.GetString("SettingsViewTestingSuccess"), 100, false);
 			}
 			catch (Exception ex)
 			{
-				Microsoft.VisualStudio.PlatformUI.MessageDialog.Show("#ERROR#", $"#Cannot connect to Mantis. Reason : {ex.Message}#", Microsoft.VisualStudio.PlatformUI.MessageDialogCommandSet.Ok);
-				OnUpdateStatus("#Connection failed.#", 0, false);
+				Microsoft.VisualStudio.PlatformUI.MessageDialog.Show(LocalizationHelper.GetString("ERROR"), LocalizationHelper.GetString("SettingsViewTestingFailedMessage", ex.Message), Microsoft.VisualStudio.PlatformUI.MessageDialogCommandSet.Ok);
+				OnUpdateStatus(LocalizationHelper.GetString("SettingsViewTestingFailed"), 0, false);
 			}
 		}
 		private void tbxPassword_PasswordChanged(object sender, RoutedEventArgs e)
 		{
 			HasChanged |= !tbxPassword.SecurePassword.Equals(Properties.Settings.Default.Password);
+		}
+
+		public void LocalizeUI()
+		{
+			lblBaseUrl.LocalizeUIElement(this);
+			lblEndpoint.LocalizeUIElement(this);
+			lblPassword.LocalizeUIElement(this);
+			lblUsername.LocalizeUIElement(this);
+			lblLanguage.LocalizeUIElement(this);
+			ckbCustomizeEndPoint.LocalizeUIElement(this);
+			ckbSavePassword.LocalizeUIElement(this);
+			btnSave.LocalizeUIElement(this);
+			btnTest.LocalizeUIElement(this);
+		}
+
+		private void cbxLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			HasChanged = true;
 		}
 	}
 }

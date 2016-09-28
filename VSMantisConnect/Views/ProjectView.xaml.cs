@@ -86,5 +86,9 @@ namespace VSMantisConnect.Views
 		{
 			OnUpdateStatus(e.Message, e.Percentage, e.IsIndeterminate);
 		}
+
+		public void LocalizeUI()
+		{
+		}
 	}
 }

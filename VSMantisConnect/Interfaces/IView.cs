@@ -11,5 +11,6 @@ namespace VSMantisConnect.Interfaces
 		string DisplayName { get; }
 		bool Initialized { get; }
 		void InitializeData();
+		void LocalizeUI();
 	}
 }

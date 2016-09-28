@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,22 +117,91 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BaseUrl" xml:space="preserve">
-    <value>Mantis base url</value>
+  <data name="ERROR" xml:space="preserve">
+    <value>Erreur</value>
   </data>
-  <data name="CustomizeLabel" xml:space="preserve">
-    <value>Customize endpoint</value>
+  <data name="MantisConnectWindowLoaded" xml:space="preserve">
+    <value>Extension chargée</value>
   </data>
-  <data name="EndPointAddress" xml:space="preserve">
-    <value>Mantis API endpoint</value>
+  <data name="MantisConnectWindowLoadingView" xml:space="preserve">
+    <value>Chargement de la vue...</value>
   </data>
-  <data name="Password" xml:space="preserve">
-    <value>Password</value>
+  <data name="ErrCannotShowToolWindow" xml:space="preserve">
+    <value>Impossible de créer la fenêtre</value>
   </data>
-  <data name="SavePasswordLabel" xml:space="preserve">
-    <value>Save password</value>
+  <data name="ErrExtensionNotConfigured" xml:space="preserve">
+    <value>Veuillez configurer l'extension avant utilisation</value>
   </data>
-  <data name="Username" xml:space="preserve">
-    <value>Username</value>
+  <data name="MantisConnectWindowViewLoaded" xml:space="preserve">
+    <value>Vue {0} chargée</value>
+  </data>
+  <data name="MantisConnectWindowViewInitializing" xml:space="preserve">
+    <value>Initialisation de la vue {0} en cours...</value>
+  </data>
+  <data name="MantisConnectWindowErrorLoadingView" xml:space="preserve">
+    <value>Erreur de chargement de la vue</value>
+  </data>
+  <data name="SettingsViewDisplayName" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="SettingsViewErrorLoading" xml:space="preserve">
+    <value>Erreur de chargement des paramètres</value>
+  </data>
+  <data name="SettingsViewLoaded" xml:space="preserve">
+    <value>Paramètres chargés</value>
+  </data>
+  <data name="SettingsViewLoading" xml:space="preserve">
+    <value>Chargement des paramètres...</value>
+  </data>
+  <data name="SettingsViewSettingsChanged" xml:space="preserve">
+    <value>Paramètres modifiés. N'oubliez pas de sauvegarder</value>
+  </data>
+  <data name="SettingsViewSettingsSaved" xml:space="preserve">
+    <value>Paramètres sauvegardés</value>
+  </data>
+  <data name="SettingsViewTestingConnection" xml:space="preserve">
+    <value>Test de la connexion...</value>
+  </data>
+  <data name="SettingsViewTestingFailed" xml:space="preserve">
+    <value>Erreur de connexion</value>
+  </data>
+  <data name="SettingsViewTestingFailedMessage" xml:space="preserve">
+    <value>Impossible de se connecter à  Mantis. {0}</value>
+  </data>
+  <data name="SettingsViewTestingSuccess" xml:space="preserve">
+    <value>Connexion réussie</value>
+  </data>
+  <data name="SettingsViewTestingSuccessMessage" xml:space="preserve">
+    <value>Connexion réussie pour l'utilisateur {0}</value>
+  </data>
+  <data name="SUCCESS" xml:space="preserve">
+    <value>Réussie</value>
+  </data>
+  <data name="SettingsViewbtnSave" xml:space="preserve">
+    <value>Sauvegarder</value>
+  </data>
+  <data name="SettingsViewbtnTest" xml:space="preserve">
+    <value>Tester</value>
+  </data>
+  <data name="SettingsViewckbCustomizeEndPoint" xml:space="preserve">
+    <value>Personnaliser le point de terminaison</value>
+  </data>
+  <data name="SettingsViewckbSavePassword" xml:space="preserve">
+    <value>Sauvegarder le mot de passe</value>
+  </data>
+  <data name="SettingsViewlblBaseUrl" xml:space="preserve">
+    <value>URL de base de Mantis</value>
+  </data>
+  <data name="SettingsViewlblEndpoint" xml:space="preserve">
+    <value>Point de terminaison</value>
+  </data>
+  <data name="SettingsViewlblPassword" xml:space="preserve">
+    <value>Mot de passe</value>
+  </data>
+  <data name="SettingsViewlblUsername" xml:space="preserve">
+    <value>Nom d'utilisateur</value>
+  </data>
+  <data name="SettingsViewlblLanguage" xml:space="preserve">
+    <value>Langue</value>
   </data>
 </root>

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ui="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0"
 			 xmlns:ui2="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
+			 xmlns:resx="clr-namespace:VSMantisConnect.Resources"
              mc:Ignorable="d" Loaded="UserControl_Loaded"
              d:DesignHeight="250" d:DesignWidth="300">
 	<UserControl.Resources>
