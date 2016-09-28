@@ -103,7 +103,6 @@
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
-    <None Include="VSMantisConnect.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MantisConnectAPI\MantisConnectAPI.csproj">

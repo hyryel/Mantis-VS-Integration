@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("VS Mantis Connect")]
 [assembly: AssemblyDescription("Connect to Mantis Bug Tracker")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Nicolas PERNOT")]
 [assembly: AssemblyProduct("VS Mantis Connect")]
 [assembly: AssemblyCopyright("2016")]
 [assembly: AssemblyTrademark("")]
