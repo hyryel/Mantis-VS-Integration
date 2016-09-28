@@ -70,7 +70,7 @@ namespace VSMantisConnect.Views
 		}
 		private void RefreshIssueDetail()
 		{
-			OnUpdateStatus("Loading issue detail...", 0, true);
+			OnUpdateStatus("#Loading issue detail...#", 0, true);
 			try
 			{
 				btnAddNote.IsEnabled = CurrentIssue != null;
@@ -83,11 +83,11 @@ namespace VSMantisConnect.Views
 				{
 					lstIssueDetail.DataContext = null;
 				}
-				OnUpdateStatus("Issues detail loaded", 100, false);
+				OnUpdateStatus("#Issues detail loaded#", 100, false);
 			}
 			catch
 			{
-				OnUpdateStatus("Error loading issue detail", 0, false);
+				OnUpdateStatus("#Error loading issue detail#", 0, false);
 				throw;
 			}
 		}
@@ -95,6 +95,31 @@ namespace VSMantisConnect.Views
 		{
 			UpdateInfoRoutedEventArgs e = new Views.UpdateInfoRoutedEventArgs(StatusUpdateEvent, msg, percentage, isIndeterminate);
 			RaiseEvent(e);
+		}
+
+		private async void btnAddNote_Click(object sender, RoutedEventArgs e)
+		{
+			if (string.IsNullOrWhiteSpace(tbxNewNote.Text))
+			{
+				OnUpdateStatus("#Cannot send empty note#", 0, false);
+			}
+			else
+			{
+				try
+				{
+					OnUpdateStatus("#Adding your note...#", 0, true);
+					IssueNoteData note = new IssueNoteData();
+					note.text = tbxNewNote.Text;
+					await Interfaces.MantisClient.Instance.AddNoteToIssue(IssueId, note);
+					OnUpdateStatus("#Note added#", 100, false);
+				}
+				catch
+				{
+					OnUpdateStatus("#Error adding note#", 0, false);
+					throw;
+				}
+
+			}
 		}
 	}
 }

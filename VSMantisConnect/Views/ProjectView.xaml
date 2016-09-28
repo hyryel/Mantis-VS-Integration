@@ -27,7 +27,7 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<local:IssuesList Grid.Row="1" x:Name="lstIssues" ProjectId="{Binding SelectedValue, ElementName=cbxProjects}" StatusUpdated="lstIssues_StatusUpdated" IssueSelectionChanged="lstIssues_IssueSelectionChanged" />
+		<local:IssuesList Grid.Row="1" x:Name="lstIssues" ProjectId="{Binding SelectedValue, ElementName=cbxProjects}" StatusUpdated="lstIssues_StatusUpdated" />
 		<GridSplitter Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource {x:Static ui:VsBrushes.BackgroundKey}}"/>
 		<local:IssueDetail Grid.Row="3" x:Name="detIssue" CurrentIssue="{Binding ElementName=lstIssues, Path=SelectedIssue, Mode=OneWay}" StatusUpdated="lstIssues_StatusUpdated" />
 	</Grid>

@@ -32,7 +32,7 @@ namespace VSMantisConnect.Views
 		{
 			try
 			{
-				OnUpdateStatus("Retrieving user's project list...", 0, true);
+				OnUpdateStatus("#Retrieving user's project list...#", 0, true);
 				_projectList = await MantisClient.Instance.GetProjectsForUser();
 				Dictionary<ProjectData, int> dico = new Dictionary<ProjectData, int>();
 				foreach (var item in _projectList)
@@ -43,11 +43,11 @@ namespace VSMantisConnect.Views
 				}
 				await cbxProjects.Dispatcher.InvokeAsync(() => cbxProjects.DataContext = dico.OrderByDescending(kvp => kvp.Value).Select(kvp => kvp.Key));
 				_initialized = true;
-				OnUpdateStatus("Project list loaded", 100, false);
+				OnUpdateStatus("#Project list loaded#", 100, false);
 			}
 			catch (Exception ex)
 			{
-				OnUpdateStatus("Error retrieving user's projects", 0, false);
+				OnUpdateStatus("#Error retrieving user's projects#", 0, false);
 				_initialized = false;
 				throw ex;
 			}
@@ -60,7 +60,7 @@ namespace VSMantisConnect.Views
 		{
 			get
 			{
-				return "{Projects}";
+				return "#Projects#";
 			}
 		}
 		private bool _initialized;
@@ -85,14 +85,6 @@ namespace VSMantisConnect.Views
 		private void lstIssues_StatusUpdated(object sender, UpdateInfoRoutedEventArgs e)
 		{
 			OnUpdateStatus(e.Message, e.Percentage, e.IsIndeterminate);
-		}
-
-		private void lstIssues_IssueSelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			//if (e.AddedItems.Count > 0)
-			//{
-			//	detIssue.CurrentIssue = e.AddedItems[0] as IssueData;
-			//}
 		}
 	}
 }

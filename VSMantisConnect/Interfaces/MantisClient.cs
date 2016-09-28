@@ -120,12 +120,19 @@ namespace VSMantisConnect.Interfaces
 		{
 			return await Client.mc_filter_getAsync(_usr, _pwd, projectId);
 		}
+		public async Task<string> AddNoteToIssue(string issueId, IssueNoteData newNote)
+		{
+			var usr = await Login();
+			newNote.reporter = usr.account_data;
+			newNote.date_submitted = DateTime.Now;
+			return await Client.mc_issue_note_addAsync(_usr, _pwd, issueId, newNote);
+		}
 
 		private string GetPassword(string password)
 		{
 			if (string.IsNullOrWhiteSpace(password))
 			{
-				PasswordInputDialog.Show("Password needed", "Input your password", out password);
+				PasswordInputDialog.Show("#Password needed#", "#Input your password#", out password);
 			}
 			return password;
 		}
@@ -153,6 +160,5 @@ namespace VSMantisConnect.Interfaces
 				return new EndpointAddress(completeUri);
 			}
 		}
-
 	}
 }

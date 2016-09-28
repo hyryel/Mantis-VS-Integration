@@ -13,7 +13,7 @@
 		<ComboBox Name="cbxViewSelector" DockPanel.Dock="Top" Height="30" FontSize="12" SelectionChanged="cbxViewSelector_SelectionChanged" ItemsSource="{Binding}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ComboBoxStyleKey}}"  >
 		</ComboBox>
 		<ProgressBar Name="stsProgress" DockPanel.Dock="Top" Value="50" Maximum="100" Height="3" Template="{DynamicResource {x:Static ui:VsResourceKeys.ProgressBarTemplateKey}}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ProgressBarStyleKey}}" />
-		<Label DockPanel.Dock="Bottom" Name="stsLabel" Content="Status..." Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}" />
+		<Label DockPanel.Dock="Bottom" Name="stsLabel" Content="#Status...#" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}" />
 		<Grid Name="contentGrid" Margin="0,10,0,0">
 		</Grid>
 	</DockPanel>

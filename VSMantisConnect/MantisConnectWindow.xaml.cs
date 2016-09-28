@@ -52,23 +52,23 @@ namespace VSMantisConnect
 			
 			try
 			{
-				OnUpdateStatus("Loading view...", 0, true);
+				OnUpdateStatus("#Loading view...#", 0, true);
 				contentGrid.Children.Clear();
 				var v = _viewList.FirstOrDefault(u => (u as IView).DisplayName == cbxViewSelector.SelectedItem.ToString());
 				if (!(v as IView).Initialized)
 				{
-					OnUpdateStatus($"Initializing {(v as IView).DisplayName}", 0, true);
+					OnUpdateStatus($"#Initializing {(v as IView).DisplayName}#", 0, true);
 					if (Properties.Settings.Default.ExtensionConfigured)
 					{
 						await Task.Run(() => (v as IView).InitializeData());
 					}
 					else
 					{
-						throw new System.Configuration.ConfigurationException("Veuillez configurer l'extension avant d'accèder à une vue");
+						throw new System.Configuration.ConfigurationException("#Veuillez configurer l'extension avant d'accèder à une vue#");
 					}
 				}
 				contentGrid.Children.Add(v);
-				OnUpdateStatus($"View {(v as IView).DisplayName} loaded", 100, false);
+				OnUpdateStatus($"#View {(v as IView).DisplayName} loaded#", 100, false);
 			}
 			catch (System.Configuration.ConfigurationException cer)
 			{
@@ -79,18 +79,18 @@ namespace VSMantisConnect
 				contentGrid.Children.Add(settingView);
 				
 				cbxViewSelector.SelectedItem = (settingView as IView).DisplayName;
-				OnUpdateStatus("Configurez l'extension", 100, false);
+				OnUpdateStatus("#Configurez l'extension#", 100, false);
 				DisplayError(cer);
 			}
 			catch (Exception ex)
 			{
-				OnUpdateStatus("Error loading view", 0, false);
+				OnUpdateStatus("#Error loading view#", 0, false);
 				DisplayError(ex);
 			}
 		}
 		private void DisplayError(Exception ex)
 		{
-			Microsoft.VisualStudio.PlatformUI.MessageDialog.Show("ERROR", ex.ToString(), Microsoft.VisualStudio.PlatformUI.MessageDialogCommandSet.Ok);
+			Microsoft.VisualStudio.PlatformUI.MessageDialog.Show("#ERROR#", ex.ToString(), Microsoft.VisualStudio.PlatformUI.MessageDialogCommandSet.Ok);
 		}
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{

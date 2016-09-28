@@ -33,7 +33,7 @@ namespace VSMantisConnect.Views
 			{
 				SetValue(HasChangedProperty, value);
 				if (value)
-					OnUpdateStatus("Settings changed. Don't forget to save", 0, false);
+					OnUpdateStatus("#Settings changed. Don't forget to save#", 0, false);
 				UpdateSaveButtonState();
 			}
 		}
@@ -41,7 +41,7 @@ namespace VSMantisConnect.Views
 		{
 			get
 			{
-				return "{Settings}";
+				return "#Settings#";
 			}
 		}
 		bool _initialized;
@@ -69,7 +69,7 @@ namespace VSMantisConnect.Views
 
 		public void InitializeData()
 		{
-			OnUpdateStatus("Loading Settings", 0, true);
+			OnUpdateStatus("#Loading Settings#", 0, true);
 			try
 			{
 				this.Dispatcher.InvokeAsync(() =>
@@ -89,13 +89,13 @@ namespace VSMantisConnect.Views
 					ckbCustomizeEndPoint.IsChecked = Properties.Settings.Default.CustomizeEndPointAddress;
 					ckbSavePassword.IsChecked = Properties.Settings.Default.SavePassword;
 					HasChanged = false;
-					OnUpdateStatus("Settings loaded", 0, false);
+					OnUpdateStatus("#Settings loaded#", 0, false);
 					_initialized = true;
 				});
 			}
 			catch (Exception ex)
 			{
-				OnUpdateStatus("Loading settings failed.", 0, false);
+				OnUpdateStatus("#Loading settings failed.#", 0, false);
 				_initialized = false;
 				throw ex;
 			}
@@ -137,13 +137,13 @@ namespace VSMantisConnect.Views
 				Properties.Settings.Default.UserName = tbxUsername.Text;
 
 				Properties.Settings.Default.Save();
-				OnUpdateStatus("Settings saved", 100, false);
+				OnUpdateStatus("#Settings saved#", 100, false);
 				HasChanged = false;
 				MantisClient.Instance.UpdateServiceConfiguration();
 			}
 			catch (Exception ex)
 			{
-				Microsoft.VisualStudio.PlatformUI.MessageDialog.Show("Error", ex.Message, Microsoft.VisualStudio.PlatformUI.MessageDialogCommandSet.Ok);
+				Microsoft.VisualStudio.PlatformUI.MessageDialog.Show("#Error#", ex.Message, Microsoft.VisualStudio.PlatformUI.MessageDialogCommandSet.Ok);
 			}
 		}
 		private void control_ValueChanged(object sender, RoutedEventArgs e)
@@ -152,20 +152,20 @@ namespace VSMantisConnect.Views
 		}
 		private async void btnTest_Click(object sender, RoutedEventArgs e)
 		{
-			OnUpdateStatus("Testing connection...", 0, true);
+			OnUpdateStatus("#Testing connection...#", 0, true);
 			try
 			{
 				UserData data = await MantisClient.Instance.Login();
 				if (data != null)
 				{
-					Microsoft.VisualStudio.PlatformUI.MessageDialog.Show("Success", $"User {data.account_data.name} successfully connected", Microsoft.VisualStudio.PlatformUI.MessageDialogCommandSet.Ok);
+					Microsoft.VisualStudio.PlatformUI.MessageDialog.Show("#Success#", $"#User {data.account_data.name} successfully connected#", Microsoft.VisualStudio.PlatformUI.MessageDialogCommandSet.Ok);
 				}
-				OnUpdateStatus("Connection success.", 100, false);
+				OnUpdateStatus("#Connection success.#", 100, false);
 			}
 			catch (Exception ex)
 			{
-				Microsoft.VisualStudio.PlatformUI.MessageDialog.Show("ERROR", $"Cannot connect to Mantis. Reason : {ex.Message}", Microsoft.VisualStudio.PlatformUI.MessageDialogCommandSet.Ok);
-				OnUpdateStatus("Connection failed.", 0, false);
+				Microsoft.VisualStudio.PlatformUI.MessageDialog.Show("#ERROR#", $"#Cannot connect to Mantis. Reason : {ex.Message}#", Microsoft.VisualStudio.PlatformUI.MessageDialogCommandSet.Ok);
+				OnUpdateStatus("#Connection failed.#", 0, false);
 			}
 		}
 		private void tbxPassword_PasswordChanged(object sender, RoutedEventArgs e)

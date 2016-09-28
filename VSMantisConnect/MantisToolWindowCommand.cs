@@ -97,7 +97,7 @@ namespace VSMantisConnect
             ToolWindowPane window = this.package.FindToolWindow(typeof(MantisToolWindow), 0, true);
             if ((null == window) || (null == window.Frame))
             {
-                throw new NotSupportedException("Cannot create tool window");
+                throw new NotSupportedException("#Cannot create tool window#");
             }
 
             IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
