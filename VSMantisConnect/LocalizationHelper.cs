@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using VSMantisConnect.Interfaces;
 
 namespace VSMantisConnect
 {
@@ -35,6 +36,11 @@ namespace VSMantisConnect
 		{
 			try
 			{
+				if (element is ILocalizable)
+				{
+					(element as ILocalizable).LocalizeUI();
+					return;
+				}
 				if (element is ContentControl)
 				{
 					(element as ContentControl).Content = GetString(baseParent.GetType().Name + element.Name);
@@ -43,6 +49,7 @@ namespace VSMantisConnect
 				if (element is TextBlock)
 				{
 					(element as TextBlock).Text = GetString(baseParent.GetType().Name + element.Name);
+					return;
 				}
 			}
 			catch (Exception)

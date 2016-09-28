@@ -52,6 +52,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\ILocalizable.cs" />
     <Compile Include="Interfaces\IStatusUpdater.cs" />
     <Compile Include="Interfaces\IView.cs" />
     <Compile Include="Interfaces\MantisClient.cs" />

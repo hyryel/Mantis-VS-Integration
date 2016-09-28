@@ -104,8 +104,8 @@ namespace VSMantisConnect
 			_viewList = new List<UserControl> {
 												settingView
 												, new ProjectView()
-												, new MantisEnumView()
-												, new HomeView()};
+												/*, new MantisEnumView()
+												, new HomeView()*/};
 
 			LocalizeUI();
 			foreach (IStatusUpdater view in _viewList.OfType<IStatusUpdater>())
@@ -125,7 +125,7 @@ namespace VSMantisConnect
 			int idx = cbxViewSelector.SelectedIndex;
 			cbxViewSelector.DataContext = _viewList.Where(v => v is Interfaces.IView).Select( v => (v as IView).DisplayName);
 			cbxViewSelector.SelectedIndex = idx;
-			foreach (IView item in _viewList.OfType<IView>())
+			foreach (ILocalizable item in _viewList.OfType<ILocalizable>())
 			{
 				item.LocalizeUI();
 			}

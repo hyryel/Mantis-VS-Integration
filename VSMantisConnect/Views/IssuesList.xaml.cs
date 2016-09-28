@@ -20,7 +20,7 @@ namespace VSMantisConnect.Views
 	/// <summary>
 	/// Interaction logic for IssuesList.xaml
 	/// </summary>
-	public partial class IssuesList : UserControl
+	public partial class IssuesList : UserControl, ILocalizable
 	{
 
 
@@ -113,6 +113,10 @@ namespace VSMantisConnect.Views
 			SelectionChangedEventArgs ee = new SelectionChangedEventArgs(IssueSelectionChangedEvent, e.RemovedItems, e.AddedItems);
 			ee.Source = this;
 			RaiseEvent(ee);
+		}
+
+		public void LocalizeUI()
+		{
 		}
 	}
 }

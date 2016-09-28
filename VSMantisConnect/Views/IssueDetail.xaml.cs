@@ -13,16 +13,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VSMantisConnect.Interfaces;
 
 namespace VSMantisConnect.Views
 {
 	/// <summary>
 	/// Interaction logic for IssueDetail.xaml
 	/// </summary>
-	public partial class IssueDetail : UserControl
+	public partial class IssueDetail : UserControl, ILocalizable
 	{
-
-
 		public string IssueId
 		{
 			get { return (string)GetValue(IssueIdProperty); }
@@ -120,6 +119,11 @@ namespace VSMantisConnect.Views
 				}
 
 			}
+		}
+
+		public void LocalizeUI()
+		{
+			btnAddNote.LocalizeUIElement(this);
 		}
 	}
 }

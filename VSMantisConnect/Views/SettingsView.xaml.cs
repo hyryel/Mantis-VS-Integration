@@ -21,7 +21,7 @@ namespace VSMantisConnect.Views
 	/// <summary>
 	/// Interaction logic for Settings.xaml
 	/// </summary>
-	public partial class SettingsView : UserControl, IStatusUpdater, IView
+	public partial class SettingsView : UserControl, IStatusUpdater, IView, ILocalizable
 	{
 		// Using a DependencyProperty as the backing store for HasChanged.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty HasChangedProperty = DependencyProperty.RegisterAttached("HasChanged", typeof(bool), typeof(SettingsView), new PropertyMetadata(false));

@@ -204,4 +204,19 @@
   <data name="SettingsViewlblLanguage" xml:space="preserve">
     <value>Langue</value>
   </data>
+  <data name="IssueDetailbtnAddNote" xml:space="preserve">
+    <value>Ajouter une note</value>
+  </data>
+  <data name="ProjectViewLoading" xml:space="preserve">
+    <value>Chargement des projets</value>
+  </data>
+  <data name="ProjectViewLoaded" xml:space="preserve">
+    <value>Projets chargés</value>
+  </data>
+  <data name="ProjectViewErrorLoading" xml:space="preserve">
+    <value>Erreur de chargement des projets</value>
+  </data>
+  <data name="ProjectViewDisplayName" xml:space="preserve">
+    <value>Projets</value>
+  </data>
 </root>

@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace VSMantisConnect.Interfaces
 {
-	interface IView
+	interface ILocalizable
 	{
-		string DisplayName { get; }
-		bool Initialized { get; }
-		void InitializeData();
-
+		void LocalizeUI();
 	}
 }

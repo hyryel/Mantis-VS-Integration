@@ -20,7 +20,7 @@ namespace VSMantisConnect.Views
 	/// <summary>
 	/// Interaction logic for ProjectView.xaml
 	/// </summary>
-	public partial class ProjectView : UserControl, Interfaces.IStatusUpdater, Interfaces.IView
+	public partial class ProjectView : UserControl, Interfaces.IStatusUpdater, Interfaces.IView, ILocalizable
 	{
 		public ProjectView()
 		{
@@ -32,7 +32,7 @@ namespace VSMantisConnect.Views
 		{
 			try
 			{
-				OnUpdateStatus("#Retrieving user's project list...#", 0, true);
+				OnUpdateStatus(LocalizationHelper.GetString("ProjectViewLoading"), 0, true);
 				_projectList = await MantisClient.Instance.GetProjectsForUser();
 				Dictionary<ProjectData, int> dico = new Dictionary<ProjectData, int>();
 				foreach (var item in _projectList)
@@ -43,11 +43,11 @@ namespace VSMantisConnect.Views
 				}
 				await cbxProjects.Dispatcher.InvokeAsync(() => cbxProjects.DataContext = dico.OrderByDescending(kvp => kvp.Value).Select(kvp => kvp.Key));
 				_initialized = true;
-				OnUpdateStatus("#Project list loaded#", 100, false);
+				OnUpdateStatus(LocalizationHelper.GetString("ProjectViewLoaded"), 100, false);
 			}
 			catch (Exception ex)
 			{
-				OnUpdateStatus("#Error retrieving user's projects#", 0, false);
+				OnUpdateStatus(LocalizationHelper.GetString("ProjectViewErrorLoading"), 0, false);
 				_initialized = false;
 				throw ex;
 			}
@@ -60,7 +60,7 @@ namespace VSMantisConnect.Views
 		{
 			get
 			{
-				return "#Projects#";
+				return LocalizationHelper.GetString("ProjectViewDisplayName");
 			}
 		}
 		private bool _initialized;
@@ -89,6 +89,8 @@ namespace VSMantisConnect.Views
 
 		public void LocalizeUI()
 		{
+			lstIssues.LocalizeUIElement(this);
+			detIssue.LocalizeUIElement(this);
 		}
 	}
 }

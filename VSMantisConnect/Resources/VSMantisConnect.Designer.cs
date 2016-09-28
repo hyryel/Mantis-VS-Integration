@@ -88,6 +88,15 @@ namespace VSMantisConnect.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add note.
+        /// </summary>
+        internal static string IssueDetailbtnAddNote {
+            get {
+                return ResourceManager.GetString("IssueDetailbtnAddNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error loading view.
         /// </summary>
         internal static string MantisConnectWindowErrorLoadingView {
@@ -129,6 +138,42 @@ namespace VSMantisConnect.Resources {
         internal static string MantisConnectWindowViewLoaded {
             get {
                 return ResourceManager.GetString("MantisConnectWindowViewLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Projects.
+        /// </summary>
+        internal static string ProjectViewDisplayName {
+            get {
+                return ResourceManager.GetString("ProjectViewDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error loading projects.
+        /// </summary>
+        internal static string ProjectViewErrorLoading {
+            get {
+                return ResourceManager.GetString("ProjectViewErrorLoading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Projects loaded.
+        /// </summary>
+        internal static string ProjectViewLoaded {
+            get {
+                return ResourceManager.GetString("ProjectViewLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading projects....
+        /// </summary>
+        internal static string ProjectViewLoading {
+            get {
+                return ResourceManager.GetString("ProjectViewLoading", resourceCulture);
             }
         }
         
