@@ -219,4 +219,34 @@
   <data name="IssueDetailbtnAddNote" xml:space="preserve">
     <value>Add note</value>
   </data>
+  <data name="IssuesListLoading" xml:space="preserve">
+    <value>Loading issues...</value>
+  </data>
+  <data name="IssuesListLoaded" xml:space="preserve">
+    <value>{0} issues loaded</value>
+  </data>
+  <data name="IssuesListErrorLoading" xml:space="preserve">
+    <value>Error loading issues</value>
+  </data>
+  <data name="IssueDetailLoading" xml:space="preserve">
+    <value>Loading issue detail...</value>
+  </data>
+  <data name="IssueDetailLoaded" xml:space="preserve">
+    <value>Issues detail loaded</value>
+  </data>
+  <data name="IssueDetailErrorLoading" xml:space="preserve">
+    <value>Error loading issue detail</value>
+  </data>
+  <data name="IssueDetailErrorEmptyNote" xml:space="preserve">
+    <value>Cannot send empty note</value>
+  </data>
+  <data name="IssueDetailAddingNote" xml:space="preserve">
+    <value>Adding your note...</value>
+  </data>
+  <data name="IssueDetailNoteAdded" xml:space="preserve">
+    <value>Note added</value>
+  </data>
+  <data name="IssueDetailErrorAddingNote" xml:space="preserve">
+    <value>Error adding note</value>
+  </data>
 </root>

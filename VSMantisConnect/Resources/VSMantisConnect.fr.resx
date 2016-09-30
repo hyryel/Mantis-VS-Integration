@@ -219,4 +219,34 @@
   <data name="ProjectViewDisplayName" xml:space="preserve">
     <value>Projets</value>
   </data>
+  <data name="IssuesListLoading" xml:space="preserve">
+    <value>Chargement des tickets...</value>
+  </data>
+  <data name="IssuesListLoaded" xml:space="preserve">
+    <value>{0} tickets chargés</value>
+  </data>
+  <data name="IssuesListErrorLoading" xml:space="preserve">
+    <value>Erreur de chargement des tickets</value>
+  </data>
+  <data name="IssueDetailLoading" xml:space="preserve">
+    <value>Chargement des détails du ticket...</value>
+  </data>
+  <data name="IssueDetailLoaded" xml:space="preserve">
+    <value>Détails du ticket chargés</value>
+  </data>
+  <data name="IssueDetailErrorLoading" xml:space="preserve">
+    <value>Erreur de chargement des détails</value>
+  </data>
+  <data name="IssueDetailErrorEmptyNote" xml:space="preserve">
+    <value>Impossible d'ajouter une note vide</value>
+  </data>
+  <data name="IssueDetailAddingNote" xml:space="preserve">
+    <value>Ajout de la note...</value>
+  </data>
+  <data name="IssueDetailNoteAdded" xml:space="preserve">
+    <value>Note ajoutée</value>
+  </data>
+  <data name="IssueDetailErrorAddingNote" xml:space="preserve">
+    <value>Erreur d'ajout de la note</value>
+  </data>
 </root>

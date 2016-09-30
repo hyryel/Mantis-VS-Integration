@@ -88,11 +88,101 @@ namespace VSMantisConnect.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adding your note....
+        /// </summary>
+        internal static string IssueDetailAddingNote {
+            get {
+                return ResourceManager.GetString("IssueDetailAddingNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add note.
         /// </summary>
         internal static string IssueDetailbtnAddNote {
             get {
                 return ResourceManager.GetString("IssueDetailbtnAddNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error adding note.
+        /// </summary>
+        internal static string IssueDetailErrorAddingNote {
+            get {
+                return ResourceManager.GetString("IssueDetailErrorAddingNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot send empty note.
+        /// </summary>
+        internal static string IssueDetailErrorEmptyNote {
+            get {
+                return ResourceManager.GetString("IssueDetailErrorEmptyNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error loading issue detail.
+        /// </summary>
+        internal static string IssueDetailErrorLoading {
+            get {
+                return ResourceManager.GetString("IssueDetailErrorLoading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Issues detail loaded.
+        /// </summary>
+        internal static string IssueDetailLoaded {
+            get {
+                return ResourceManager.GetString("IssueDetailLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading issue detail....
+        /// </summary>
+        internal static string IssueDetailLoading {
+            get {
+                return ResourceManager.GetString("IssueDetailLoading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note added.
+        /// </summary>
+        internal static string IssueDetailNoteAdded {
+            get {
+                return ResourceManager.GetString("IssueDetailNoteAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error loading issues.
+        /// </summary>
+        internal static string IssuesListErrorLoading {
+            get {
+                return ResourceManager.GetString("IssuesListErrorLoading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} issues loaded.
+        /// </summary>
+        internal static string IssuesListLoaded {
+            get {
+                return ResourceManager.GetString("IssuesListLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading issues....
+        /// </summary>
+        internal static string IssuesListLoading {
+            get {
+                return ResourceManager.GetString("IssuesListLoading", resourceCulture);
             }
         }
         

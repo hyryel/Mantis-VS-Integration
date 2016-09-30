@@ -69,7 +69,7 @@ namespace VSMantisConnect.Views
 		}
 		private void RefreshIssueDetail()
 		{
-			OnUpdateStatus("#Loading issue detail...#", 0, true);
+			OnUpdateStatus(LocalizationHelper.GetString("IssueDetaiLoading"), 0, true);
 			try
 			{
 				btnAddNote.IsEnabled = CurrentIssue != null;
@@ -82,11 +82,11 @@ namespace VSMantisConnect.Views
 				{
 					lstIssueDetail.DataContext = null;
 				}
-				OnUpdateStatus("#Issues detail loaded#", 100, false);
+				OnUpdateStatus(LocalizationHelper.GetString("IssueDetailLoaded"), 100, false);
 			}
 			catch
 			{
-				OnUpdateStatus("#Error loading issue detail#", 0, false);
+				OnUpdateStatus(LocalizationHelper.GetString("IssueDetailErrorLoading"), 0, false);
 				// TODO : log error
 			}
 		}
@@ -100,22 +100,22 @@ namespace VSMantisConnect.Views
 		{
 			if (string.IsNullOrWhiteSpace(tbxNewNote.Text))
 			{
-				OnUpdateStatus("#Cannot send empty note#", 0, false);
+				OnUpdateStatus(LocalizationHelper.GetString("IssueDetailErrorEmptyNote"), 0, false);
 			}
 			else
 			{
 				try
 				{
-					OnUpdateStatus("#Adding your note...#", 0, true);
+					OnUpdateStatus(LocalizationHelper.GetString("IssueDetailAddingNote"), 0, true);
 					IssueNoteData note = new IssueNoteData();
 					note.text = tbxNewNote.Text;
 					await Interfaces.MantisClient.Instance.AddNoteToIssue(IssueId, note);
-					OnUpdateStatus("#Note added#", 100, false);
+					OnUpdateStatus(LocalizationHelper.GetString("IssueDetailNoteAdded"), 100, false);
 					RefreshIssueDetail();
 				}
 				catch
 				{
-					OnUpdateStatus("#Error adding note#", 0, false);
+					OnUpdateStatus(LocalizationHelper.GetString("IssueDetailErrorAddingNote"), 0, false);
 					// TODO : log error
 				}
 
