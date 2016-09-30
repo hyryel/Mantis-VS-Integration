@@ -87,7 +87,7 @@ namespace VSMantisConnect.Views
 			catch
 			{
 				OnUpdateStatus("#Error loading issue detail#", 0, false);
-				throw;
+				// TODO : log error
 			}
 		}
 		private void OnUpdateStatus(string msg, double percentage, bool isIndeterminate)
@@ -111,11 +111,12 @@ namespace VSMantisConnect.Views
 					note.text = tbxNewNote.Text;
 					await Interfaces.MantisClient.Instance.AddNoteToIssue(IssueId, note);
 					OnUpdateStatus("#Note added#", 100, false);
+					RefreshIssueDetail();
 				}
 				catch
 				{
 					OnUpdateStatus("#Error adding note#", 0, false);
-					throw;
+					// TODO : log error
 				}
 
 			}

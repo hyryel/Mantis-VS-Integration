@@ -16,50 +16,51 @@ using VSMantisConnect.Interfaces;
 
 namespace VSMantisConnect.Views
 {
-		/// <summary>
-		/// Interaction logic for HomeView.xaml
-		/// </summary>
-		public partial class HomeView : UserControl, IView, IStatusUpdater
+	/// <summary>
+	/// Interaction logic for HomeView.xaml
+	/// </summary>
+	public partial class HomeView : UserControl, IView, IStatusUpdater
+	{
+		public HomeView()
 		{
-				public HomeView()
-				{
-						InitializeComponent();
-				}
+			InitializeComponent();
+		}
 
-				public string DisplayName
-				{
-						get
-						{
-								return "#Home view#";
-						}
-				}
-				private bool _initialized;
-				bool IView.Initialized
-				{
-						get
-						{
-								return _initialized;
-						}
-				}
+		public string DisplayName
+		{
+			get
+			{
+				return "#Home view#";
+			}
+		}
+		private bool _initialized;
+		bool IView.Initialized
+		{
+			get
+			{
+				return _initialized;
+			}
+		}
 
-				public event EventHandler<StatusUpdatedEventArgs> UpdateStatus;
+		public event EventHandler<StatusUpdatedEventArgs> UpdateStatus;
 
-				private void OnUpdateStatus(string info, double percentage, bool isIndeterminate)
-				{
-						if (UpdateStatus != null)
-						{
-								UpdateStatus(this, new StatusUpdatedEventArgs(info, percentage, isIndeterminate));
-						}
-				}
+		private void OnUpdateStatus(string info, double percentage, bool isIndeterminate)
+		{
+			if (UpdateStatus != null)
+			{
+				UpdateStatus(this, new StatusUpdatedEventArgs(info, percentage, isIndeterminate));
+			}
+		}
 
-				public void InitializeData()
-				{
-						//TODO : initialize tickets
-				}
+		public Task<Exception> InitializeData()
+		{
+			//TODO : initialize tickets
+			return null;
+		}
 
 		public void LocalizeUI()
 		{
-			
+
 		}
 	}
 }

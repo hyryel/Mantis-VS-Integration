@@ -53,7 +53,7 @@ namespace VSMantisConnect.Views
 			}
 		}
 
-		public async void InitializeData()
+		public async Task<Exception> InitializeData()
 		{
 			try
 			{
@@ -65,12 +65,13 @@ namespace VSMantisConnect.Views
 				}
 				OnUpdateStatus("Mantis enum loaded", 100, false);
 				_initialized = true;
+				return null;
 			}
 			catch (Exception ex)
 			{
 				_initialized = false;
 				OnUpdateStatus("Error loading Mantis enum", 0, false);
-				throw ex;
+				return ex;
 			}
 		}
 

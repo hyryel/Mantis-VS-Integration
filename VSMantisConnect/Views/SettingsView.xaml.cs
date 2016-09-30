@@ -68,7 +68,7 @@ namespace VSMantisConnect.Views
 			_initialized = false;
 		}
 
-		public void InitializeData()
+		public async Task<Exception> InitializeData()
 		{
 			OnUpdateStatus(LocalizationHelper.GetString("SettingsViewLoading"), 0, true);
 			try
@@ -95,12 +95,13 @@ namespace VSMantisConnect.Views
 					OnUpdateStatus(LocalizationHelper.GetString("SettingsViewLoaded"), 0, false);
 					_initialized = true;
 				});
+				return null;
 			}
 			catch (Exception ex)
 			{
 				OnUpdateStatus(LocalizationHelper.GetString("SettingsViewErrorLoading"), 0, false);
 				_initialized = false;
-				throw ex;
+				return ex;
 			}
 		}
 		private void tbx_TextChanged(object sender, TextChangedEventArgs e)

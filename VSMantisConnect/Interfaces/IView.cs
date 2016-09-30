@@ -10,7 +10,7 @@ namespace VSMantisConnect.Interfaces
 	{
 		string DisplayName { get; }
 		bool Initialized { get; }
-		void InitializeData();
+		Task<Exception> InitializeData();
 
 	}
 }

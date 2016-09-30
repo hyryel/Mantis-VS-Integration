@@ -92,7 +92,7 @@ namespace VSMantisConnect.Views
 			catch
 			{
 				OnUpdateStatus("#Error loading issues#", 0, false);
-				throw ;
+				// TODO : log error
 			}
 		}
 		protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)

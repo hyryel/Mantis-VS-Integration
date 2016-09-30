@@ -28,7 +28,7 @@ namespace VSMantisConnect.Views
 			_initialized = false;
 		}
 
-		public async void InitializeData()
+		public async Task<Exception> InitializeData()
 		{
 			try
 			{
@@ -44,12 +44,13 @@ namespace VSMantisConnect.Views
 				await cbxProjects.Dispatcher.InvokeAsync(() => cbxProjects.DataContext = dico.OrderByDescending(kvp => kvp.Value).Select(kvp => kvp.Key));
 				_initialized = true;
 				OnUpdateStatus(LocalizationHelper.GetString("ProjectViewLoaded"), 100, false);
+				return null;
 			}
 			catch (Exception ex)
 			{
 				OnUpdateStatus(LocalizationHelper.GetString("ProjectViewErrorLoading"), 0, false);
 				_initialized = false;
-				throw ex;
+				return ex;
 			}
 
 		}

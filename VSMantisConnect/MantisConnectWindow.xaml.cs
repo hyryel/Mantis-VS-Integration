@@ -64,11 +64,15 @@ namespace VSMantisConnect
 					OnUpdateStatus(LocalizationHelper.GetString("MantisConnectWindowViewInitializing", (v as IView).DisplayName), 0, true);
 					if (Properties.Settings.Default.ExtensionConfigured)
 					{
-						await Task.Run(() => (v as IView).InitializeData());
+						var ex = await (v as IView).InitializeData();
+						if (ex != null)
+						{
+							DisplayError(ex);
+						}
 					}
 					else
 					{
-						throw new System.Configuration.ConfigurationException(LocalizationHelper.GetString("ErrExtensionNotConfigured"));
+						DisplayError(new System.Configuration.ConfigurationException(LocalizationHelper.GetString("ErrExtensionNotConfigured")));
 					}
 				}
 				contentGrid.Children.Add(v);
@@ -123,7 +127,7 @@ namespace VSMantisConnect
 		private void LocalizeUI()
 		{
 			int idx = cbxViewSelector.SelectedIndex;
-			cbxViewSelector.DataContext = _viewList.Where(v => v is Interfaces.IView).Select( v => (v as IView).DisplayName);
+			cbxViewSelector.DataContext = _viewList.Where(v => v is Interfaces.IView).Select(v => (v as IView).DisplayName);
 			cbxViewSelector.SelectedIndex = idx;
 			foreach (ILocalizable item in _viewList.OfType<ILocalizable>())
 			{
