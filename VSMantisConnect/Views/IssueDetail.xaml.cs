@@ -69,7 +69,7 @@ namespace VSMantisConnect.Views
 		}
 		private void RefreshIssueDetail()
 		{
-			OnUpdateStatus(LocalizationHelper.GetString("IssueDetaiLoading"), 0, true);
+			OnUpdateStatus(LocalizationHelper.GetString("IssueDetailLoading"), 0, true);
 			try
 			{
 				btnAddNote.IsEnabled = CurrentIssue != null;

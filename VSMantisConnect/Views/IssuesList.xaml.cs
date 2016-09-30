@@ -73,7 +73,7 @@ namespace VSMantisConnect.Views
 		}
 		private async void UpdateList()
 		{
-			OnUpdateStatus(LocalizationHelper.GetString("IsuesListLoading"), 0, true);
+			OnUpdateStatus(LocalizationHelper.GetString("IssuesListLoading"), 0, true);
 			try
 			{
 				if (!string.IsNullOrEmpty(ProjectId))
@@ -87,11 +87,11 @@ namespace VSMantisConnect.Views
 				}
 				SelectedIssue = null;
 				SelectedIssueId = string.Empty;
-				OnUpdateStatus(LocalizationHelper.GetString("IsuesListLoaded", _projectIssues.Length), 100, false);
+				OnUpdateStatus(LocalizationHelper.GetString("IssuesListLoaded", _projectIssues.Length), 100, false);
 			}
 			catch
 			{
-				OnUpdateStatus(LocalizationHelper.GetString("IsuesListErrorLoading"), 0, false);
+				OnUpdateStatus(LocalizationHelper.GetString("IssuesListErrorLoading"), 0, false);
 				// TODO : log error
 			}
 		}
