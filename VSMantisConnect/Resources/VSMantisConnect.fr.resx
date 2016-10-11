@@ -249,4 +249,10 @@
   <data name="IssueDetailErrorAddingNote" xml:space="preserve">
     <value>Erreur d'ajout de la note</value>
   </data>
+  <data name="PasswordBoxTitle" xml:space="preserve">
+    <value>Mot de passe requis</value>
+  </data>
+  <data name="PasswordBoxMessage" xml:space="preserve">
+    <value>Saisissez votre mot de passe</value>
+  </data>
 </root>

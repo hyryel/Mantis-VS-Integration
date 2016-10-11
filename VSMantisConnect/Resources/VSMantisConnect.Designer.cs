@@ -232,6 +232,24 @@ namespace VSMantisConnect.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Input your password.
+        /// </summary>
+        internal static string PasswordBoxMessage {
+            get {
+                return ResourceManager.GetString("PasswordBoxMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password needed.
+        /// </summary>
+        internal static string PasswordBoxTitle {
+            get {
+                return ResourceManager.GetString("PasswordBoxTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Projects.
         /// </summary>
         internal static string ProjectViewDisplayName {

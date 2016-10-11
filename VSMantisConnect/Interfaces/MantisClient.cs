@@ -27,7 +27,7 @@ namespace VSMantisConnect.Interfaces
 
 		#endregion
 		private string _usr { get { return Properties.Settings.Default.UserName; } }
-		private string _pwd { get { return GetPassword(Properties.Settings.Default.Password); } }
+		private string _pwd { get { return ValidatePassword(Properties.Settings.Default.Password); } }
 		private MantisClient()
 		{
 		}
@@ -71,7 +71,19 @@ namespace VSMantisConnect.Interfaces
 		}
 		public async Task<ProjectData[]> GetProjectsForUser()
 		{
-			return await Client.mc_projects_get_user_accessibleAsync(_usr, _pwd);
+			try
+			{
+				return await Client.mc_projects_get_user_accessibleAsync(_usr, _pwd);
+
+			}
+			catch(System.ServiceModel.FaultException ex)
+			{
+				if (ex.Message.Equals("Access denied", StringComparison.InvariantCultureIgnoreCase))
+				{
+					_invalidPassword = true;
+				}
+				throw;
+			}
 		}
 
 		public async Task<IssueData[]> GetIssuesForUserByProjet(string projectId)
@@ -128,13 +140,27 @@ namespace VSMantisConnect.Interfaces
 			return await Client.mc_issue_note_addAsync(_usr, _pwd, issueId, newNote);
 		}
 
-		private string GetPassword(string password)
+		private string __pwd;
+		private TimeSpan _pwdExpiration;
+		private bool _invalidPassword;
+		private string ValidatePassword(string password)
 		{
-			if (string.IsNullOrWhiteSpace(password))
+			if (!string.IsNullOrWhiteSpace(password))
 			{
-				PasswordInputDialog.Show("#Password needed#", "#Input your password#", out password);
+				return password;
 			}
-			return password;
+			if (_pwdExpiration.Ticks < DateTime.Now.Ticks)
+			{
+				__pwd = "";
+			}
+			if (string.IsNullOrWhiteSpace(__pwd) || _invalidPassword)
+			{
+				_pwdExpiration = new TimeSpan(DateTime.Now.AddMinutes(30).Ticks);
+				PasswordInputDialog.Show(LocalizationHelper.GetString("PasswordBoxTitle"), LocalizationHelper.GetString("PasswordBoxMessage"), out password);
+				__pwd = password;
+				_invalidPassword = false;
+			}
+			return __pwd;
 		}
 		private MantisConnectPortTypeClient svcClient;
 		private System.ServiceModel.EndpointAddress _endpointAddr
