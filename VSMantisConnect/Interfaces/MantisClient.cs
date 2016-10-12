@@ -24,7 +24,6 @@ namespace VSMantisConnect.Interfaces
 		{
 			_instance = new MantisClient();
 		}
-
 		#endregion
 		private string _usr { get { return Properties.Settings.Default.UserName; } }
 		private string _pwd { get { return ValidatePassword(Properties.Settings.Default.Password); } }
@@ -67,16 +66,26 @@ namespace VSMantisConnect.Interfaces
 		}
 		public async Task<UserData> Login()
 		{
-			return await Client.mc_loginAsync(_usr, _pwd);
+			try
+			{
+				return await Client.mc_loginAsync(_usr, _pwd);
+			}
+			catch (System.ServiceModel.FaultException ex)
+			{
+				if (ex.Message.Equals("Access denied", StringComparison.InvariantCultureIgnoreCase))
+				{
+					_invalidPassword = true;
+				}
+				throw;
+			}
 		}
 		public async Task<ProjectData[]> GetProjectsForUser()
 		{
 			try
 			{
 				return await Client.mc_projects_get_user_accessibleAsync(_usr, _pwd);
-
 			}
-			catch(System.ServiceModel.FaultException ex)
+			catch (System.ServiceModel.FaultException ex)
 			{
 				if (ex.Message.Equals("Access denied", StringComparison.InvariantCultureIgnoreCase))
 				{
@@ -88,13 +97,35 @@ namespace VSMantisConnect.Interfaces
 
 		public async Task<IssueData[]> GetIssuesForUserByProjet(string projectId)
 		{
-			UserData usr = await Login();
-			return await Client.mc_project_get_issues_for_userAsync(_usr, _pwd, projectId.ToString(), "assigned", usr.account_data, "0", "-1");
+			try
+			{
+				UserData usr = await Login();
+				return await Client.mc_project_get_issues_for_userAsync(_usr, _pwd, projectId.ToString(), "assigned", usr.account_data, "0", "-1");
+			}
+			catch (System.ServiceModel.FaultException ex)
+			{
+				if (ex.Message.Equals("Access denied", StringComparison.InvariantCultureIgnoreCase))
+				{
+					_invalidPassword = true;
+				}
+				throw;
+			}
 		}
 
 		public async Task<IssueData> GetIssueById(string issueId)
 		{
-			return await Client.mc_issue_getAsync(_usr, _pwd, issueId);
+			try
+			{
+				return await Client.mc_issue_getAsync(_usr, _pwd, issueId);
+			}
+			catch (System.ServiceModel.FaultException ex)
+			{
+				if (ex.Message.Equals("Access denied", StringComparison.InvariantCultureIgnoreCase))
+				{
+					_invalidPassword = true;
+				}
+				throw;
+			}
 		}
 
 		public async Task<Dictionary<string, ObjectRef[]>> GetAllMantisEnum()
@@ -130,14 +161,36 @@ namespace VSMantisConnect.Interfaces
 		}
 		public async Task<FilterData[]> GetFilterForProject(string projectId)
 		{
-			return await Client.mc_filter_getAsync(_usr, _pwd, projectId);
+			try
+			{
+				return await Client.mc_filter_getAsync(_usr, _pwd, projectId);
+			}
+			catch (System.ServiceModel.FaultException ex)
+			{
+				if (ex.Message.Equals("Access denied", StringComparison.InvariantCultureIgnoreCase))
+				{
+					_invalidPassword = true;
+				}
+				throw;
+			}
 		}
 		public async Task<string> AddNoteToIssue(string issueId, IssueNoteData newNote)
 		{
-			var usr = await Login();
-			newNote.reporter = usr.account_data;
-			newNote.date_submitted = DateTime.Now;
-			return await Client.mc_issue_note_addAsync(_usr, _pwd, issueId, newNote);
+			try
+			{
+				var usr = await Login();
+				newNote.reporter = usr.account_data;
+				newNote.date_submitted = DateTime.Now;
+				return await Client.mc_issue_note_addAsync(_usr, _pwd, issueId, newNote);
+			}
+			catch (System.ServiceModel.FaultException ex)
+			{
+				if (ex.Message.Equals("Access denied", StringComparison.InvariantCultureIgnoreCase))
+				{
+					_invalidPassword = true;
+				}
+				throw;
+			}
 		}
 
 		private string __pwd;
@@ -155,7 +208,7 @@ namespace VSMantisConnect.Interfaces
 			}
 			if (string.IsNullOrWhiteSpace(__pwd) || _invalidPassword)
 			{
-				_pwdExpiration = new TimeSpan(DateTime.Now.AddMinutes(30).Ticks);
+				_pwdExpiration = new TimeSpan(DateTime.Now.AddMinutes(15).Ticks);
 				PasswordInputDialog.Show(LocalizationHelper.GetString("PasswordBoxTitle"), LocalizationHelper.GetString("PasswordBoxMessage"), out password);
 				__pwd = password;
 				_invalidPassword = false;
