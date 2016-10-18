@@ -1,40 +1,32 @@
-﻿<UserControl x:Class="VSMantisConnect.Views.IssuesList"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:VSMantisConnect.Views"
+﻿<UserControl
+			xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			xmlns:local="clr-namespace:VSMantisConnect.Views"
 			xmlns:ui="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+			xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" x:Class="VSMantisConnect.Views.IssuesList"
+			mc:Ignorable="d"
+			d:DesignHeight="300" d:DesignWidth="300">
+	<UserControl.Resources>
+		<local:StringShrinker x:Key="SummaryGetter"/>
+	</UserControl.Resources>
 	<Grid>
-		<ListBox Grid.Row="1" Name="lstIssues" AlternationCount="2" ItemsSource="{Binding}" SelectionChanged="lstIssues_SelectionChanged" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogListBoxStyleKey}}" >
-			<ListBox.Resources>
-				<Style TargetType="ListBoxItem">
-					<Style.Triggers>
-						<Trigger Property="ItemsControl.AlternationIndex" Value="1">
-							<Setter Property="Background" Value="{DynamicResource {x:Static ui:VsBrushes.ComboBoxDisabledBackgroundKey}}" />
-						</Trigger>
-						<Trigger Property="ItemsControl.AlternationIndex" Value="0">
-							<Setter Property="Background" Value="{DynamicResource {x:Static ui:VsBrushes.ComboBoxBackgroundKey}}"  />
-						</Trigger>
-					</Style.Triggers>
-				</Style>
-			</ListBox.Resources>
-			<ListBox.ItemTemplate>
-				<DataTemplate DataType="mdl:IssueData">
-					<Label Content="{Binding summary}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}" >
-						<Label.ToolTip>
-							<ToolTip Style="{DynamicResource {x:Static ui:VsResourceKeys.LargeToolTipStyleKey}}">
-								<StackPanel>
-									<Label Content="{Binding id, StringFormat={}Id : {0} }" FontWeight="Bold" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}" />
-									<Label Content="{Binding description}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}" />
-								</StackPanel>
-							</ToolTip>
-						</Label.ToolTip>
-					</Label>
-				</DataTemplate>
-			</ListBox.ItemTemplate>
-		</ListBox>
+		<TreeView Grid.Row="1" x:Name="lstIssues" ItemsSource="{Binding}" SelectedItemChanged="lstIssues_SelectedItemChanged" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogTreeViewStyleKey}}" IsTextSearchEnabled="True">
+			<TreeView.ItemTemplate>
+				<HierarchicalDataTemplate ItemsSource="{Binding Issues}">
+					<Label Content="{Binding Project.name}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}"/>
+					<HierarchicalDataTemplate.ItemTemplate>
+						<DataTemplate>
+							<StackPanel>
+								<Label Content="{Binding id}" FontWeight="Bold" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}" />
+								<Label Content="{Binding summary}" FontWeight="Bold" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}" />
+								<Label Content="{Binding description, Converter={StaticResource SummaryGetter}, ConverterParameter=50}" Style="{DynamicResource {x:Static ui:VsResourceKeys.ThemedDialogLabelStyleKey}}" />
+							</StackPanel>
+						</DataTemplate>
+					</HierarchicalDataTemplate.ItemTemplate>
+				</HierarchicalDataTemplate>
+			</TreeView.ItemTemplate>
+		</TreeView>
 	</Grid>
 </UserControl>

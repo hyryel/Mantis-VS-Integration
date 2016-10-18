@@ -49,9 +49,9 @@ namespace VSMantisConnect.Views
 		// Using a DependencyProperty as the backing store for SelectedIssue.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty SelectedIssueProperty = DependencyProperty.Register("SelectedIssue", typeof(IssueData), typeof(IssuesList));
 		public static readonly RoutedEvent StatusUpdatedEvent = EventManager.RegisterRoutedEvent("StatusUpdated", RoutingStrategy.Bubble, typeof(UpdateInfoRoutedEventHandler), typeof(IssuesList));
-		public static readonly RoutedEvent IssueSelectionChangedEvent = EventManager.RegisterRoutedEvent("IssueSelectionChanged", RoutingStrategy.Bubble, typeof(SelectionChangedEventHandler), typeof(IssuesList));
+		public static readonly RoutedEvent IssueSelectionChangedEvent = EventManager.RegisterRoutedEvent("IssueSelectionChanged", RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<IssueData>), typeof(IssuesList));
 
-		public event SelectionChangedEventHandler IssueSelectionChanged
+		public event RoutedPropertyChangedEventHandler<IssueData> IssueSelectionChanged
 		{
 			add { AddHandler(IssueSelectionChangedEvent, value); }
 			remove { RemoveHandler(IssueSelectionChangedEvent, value); }
@@ -65,58 +65,59 @@ namespace VSMantisConnect.Views
 		{
 			InitializeComponent();
 		}
-		private IssueData[] _projectIssues;
 		private void OnUpdateStatus(string msg, double percentage, bool isIndeterminate)
 		{
 			UpdateInfoRoutedEventArgs e = new Views.UpdateInfoRoutedEventArgs(StatusUpdatedEvent, msg, percentage, isIndeterminate);
 			RaiseEvent(e);
 		}
-		private async void UpdateList()
+		public async Task<Exception> UpdateList()
 		{
 			OnUpdateStatus(LocalizationHelper.GetString("IssuesListLoading"), 0, true);
 			try
 			{
-				if (!string.IsNullOrEmpty(ProjectId))
+				var projects = await MantisClient.Instance.GetProjectsForUser();
+				List<ProjectDetail> data = new List<ProjectDetail>();
+
+				foreach (var p in projects)
 				{
-					_projectIssues = await MantisClient.Instance.GetIssuesForUserByProjet(ProjectId);
-					lstIssues.DataContext = _projectIssues.OrderByDescending(p => p.id);
+					var issues = await MantisClient.Instance.GetIssuesForUserByProjet(p.id);
+					data.Add(new ProjectDetail{ Project = p, Issues = issues.ToList()  });
 				}
-				else
-				{
-					lstIssues.DataContext = null;
-				}
+				lstIssues.DataContext = data.OrderByDescending( p=> p.Issues.Count );
+
 				SelectedIssue = null;
 				SelectedIssueId = string.Empty;
-				OnUpdateStatus(LocalizationHelper.GetString("IssuesListLoaded", _projectIssues.Length), 100, false);
+				OnUpdateStatus(LocalizationHelper.GetString("IssuesListLoaded", data.Count), 100, false);
 			}
-			catch
+			catch (Exception ex)
 			{
 				OnUpdateStatus(LocalizationHelper.GetString("IssuesListErrorLoading"), 0, false);
 				// TODO : log error
+				return ex;
 			}
+			return null;
 		}
-		protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+
+		protected class ProjectDetail
 		{
-			base.OnPropertyChanged(e);
-			if (e.Property == ProjectIdProperty)
-			{
-				UpdateList();
-			}
-		}
-		private void lstIssues_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			if (e.AddedItems.Count > 0)
-			{
-				SelectedIssueId = (e.AddedItems[0] as IssueData).id;
-				SelectedIssue = (e.AddedItems[0] as IssueData);
-			}
-			SelectionChangedEventArgs ee = new SelectionChangedEventArgs(IssueSelectionChangedEvent, e.RemovedItems, e.AddedItems);
-			ee.Source = this;
-			RaiseEvent(ee);
+			public ProjectData Project { get; set; }
+			public List<IssueData> Issues { get; set; }
 		}
 
 		public void LocalizeUI()
 		{
+		}
+
+		private void lstIssues_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+		{
+			if (e.NewValue is IssueData)
+			{
+				SelectedIssueId = (e.NewValue as IssueData).id;
+				SelectedIssue = (e.NewValue as IssueData);
+				RoutedPropertyChangedEventArgs<IssueData> ee = new RoutedPropertyChangedEventArgs<IssueData>(e.OldValue as IssueData, e.NewValue as IssueData, IssueSelectionChangedEvent);
+				ee.Source = this;
+				RaiseEvent(ee);
+			}
 		}
 	}
 }

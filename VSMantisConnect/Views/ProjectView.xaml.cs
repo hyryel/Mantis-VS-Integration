@@ -33,15 +33,7 @@ namespace VSMantisConnect.Views
 			try
 			{
 				OnUpdateStatus(LocalizationHelper.GetString("ProjectViewLoading"), 0, true);
-				_projectList = await MantisClient.Instance.GetProjectsForUser();
-				Dictionary<ProjectData, int> dico = new Dictionary<ProjectData, int>();
-				foreach (var item in _projectList)
-				{
-					var issues = await MantisClient.Instance.GetIssuesForUserByProjet(item.id);
-					item.name = string.Format("{0} ({1})", item.name, issues.Length);
-					dico.Add(item, issues.Count());
-				}
-				await cbxProjects.Dispatcher.InvokeAsync(() => cbxProjects.DataContext = dico.OrderByDescending(kvp => kvp.Value).Select(kvp => kvp.Key));
+				await lstIssues.UpdateList();
 				_initialized = true;
 				OnUpdateStatus(LocalizationHelper.GetString("ProjectViewLoaded"), 100, false);
 				return null;
@@ -55,7 +47,6 @@ namespace VSMantisConnect.Views
 
 		}
 
-		ProjectData[] _projectList;
 		#region Interface implementation
 		public string DisplayName
 		{
@@ -87,11 +78,11 @@ namespace VSMantisConnect.Views
 		{
 			OnUpdateStatus(e.Message, e.Percentage, e.IsIndeterminate);
 		}
-
 		public void LocalizeUI()
 		{
 			lstIssues.LocalizeUIElement(this);
 			detIssue.LocalizeUIElement(this);
 		}
+
 	}
 }
