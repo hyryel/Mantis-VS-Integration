@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 using MantisConnectAPI;
 namespace VSMantisConnect.Interfaces
 {
-	class MantisClient
+	public class MantisClient
 	{
 		#region Singleton
 		private static MantisClient _instance;
@@ -50,16 +50,20 @@ namespace VSMantisConnect.Interfaces
 			}
 
 			System.ServiceModel.Channels.Binding b = new BasicHttpBinding();
+			
 			if (Properties.Settings.Default.ExtensionConfigured)
 			{
 				Uri baseUrl = new Uri(Properties.Settings.Default.BaseUrl);
 				if (baseUrl.Scheme.Equals("http", StringComparison.InvariantCultureIgnoreCase))
 				{
 					b = new BasicHttpBinding();
+					((BasicHttpBinding)b).MaxReceivedMessageSize = 5 * 1024 * 1024;
 				}
 				if (baseUrl.Scheme.Equals("https", StringComparison.InvariantCultureIgnoreCase))
 				{
 					b = new BasicHttpsBinding();
+					((BasicHttpsBinding)b).MaxReceivedMessageSize = 5 * 1024 * 1024;
+
 				}
 				svcClient = new MantisConnectPortTypeClient(b, _endpointAddr);
 			}

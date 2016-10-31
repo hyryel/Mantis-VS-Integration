@@ -33,7 +33,12 @@ namespace VSMantisConnect.Views
 			try
 			{
 				OnUpdateStatus(LocalizationHelper.GetString("ProjectViewLoading"), 0, true);
-				await lstIssues.UpdateList();
+				Exception ex = await lstIssues.UpdateList();
+				if (ex != null)
+				{
+					_initialized = false;
+					throw ex;
+				}
 				_initialized = true;
 				OnUpdateStatus(LocalizationHelper.GetString("ProjectViewLoaded"), 100, false);
 				return null;

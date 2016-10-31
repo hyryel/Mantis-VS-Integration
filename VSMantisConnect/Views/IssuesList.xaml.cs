@@ -97,13 +97,6 @@ namespace VSMantisConnect.Views
 			}
 			return null;
 		}
-
-		protected class ProjectDetail
-		{
-			public ProjectData Project { get; set; }
-			public List<IssueData> Issues { get; set; }
-		}
-
 		public void LocalizeUI()
 		{
 		}
@@ -119,5 +112,10 @@ namespace VSMantisConnect.Views
 				RaiseEvent(ee);
 			}
 		}
+	}
+	public class ProjectDetail
+	{
+		public ProjectData Project { get; set; }
+		public List<IssueData> Issues { get; set; }
 	}
 }
