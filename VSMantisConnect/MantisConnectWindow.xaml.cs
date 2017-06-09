@@ -16,11 +16,12 @@ namespace VSMantisConnect
 	[ProvideToolboxControl("VSMantisConnect.MantisConnectWindow", true)]
 	public partial class MantisConnectWindow : UserControl
 	{
-
+		
 		public MantisConnectWindow()
 		{
 			InitializeComponent();
 		}
+
 		List<UserControl> _viewList;
 		private void View_UpdateStatus(object sender, Interfaces.StatusUpdatedEventArgs e)
 		{

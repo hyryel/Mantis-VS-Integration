@@ -67,10 +67,13 @@ namespace VSMantisConnect
         /// </summary>
         protected override void Initialize()
         {
+			Application = (EnvDTE.DTE)GetService(typeof(EnvDTE.DTE));
             MantisToolWindowCommand.Initialize(this);
             base.Initialize();
         }
 
+
+		public static EnvDTE.DTE Application { get; private set; }
         #endregion
     }
 }
