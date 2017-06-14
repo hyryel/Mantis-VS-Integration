@@ -73,7 +73,7 @@ namespace VSMantisConnect
 					}
 					else
 					{
-						DisplayError(new System.Configuration.ConfigurationException(LocalizationHelper.GetString("ErrExtensionNotConfigured")));
+						DisplayError(new System.Configuration.ConfigurationErrorsException(LocalizationHelper.GetString("ErrExtensionNotConfigured")));
 					}
 				}
 				contentGrid.Children.Add(v);
