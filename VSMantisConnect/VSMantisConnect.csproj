@@ -66,6 +66,7 @@
     <Compile Include="MantisConnectWindow.xaml.cs">
       <DependentUpon>MantisConnectWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MantisSettings.cs" />
     <Compile Include="MantisToolWindow.cs" />
     <Compile Include="MantisToolWindowCommand.cs" />
     <Compile Include="MantisToolWindowPackage.cs" />

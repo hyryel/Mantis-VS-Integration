@@ -16,7 +16,7 @@ namespace VSMantisConnect
 		{
 			try
 			{
-				return string.Format(Resources.VSMantisConnect.ResourceManager.GetString(keyName, Properties.Settings.Default.Language), oparams);
+				return string.Format(Resources.VSMantisConnect.ResourceManager.GetString(keyName, MantisSettings.Language), oparams);
 			}
 			catch (Exception)
 			{
