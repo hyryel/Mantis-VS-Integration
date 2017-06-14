@@ -58,7 +58,7 @@ namespace VSMantisConnect.Views
 			try
 			{
 				OnUpdateStatus("Loading Mantis enum...", 0, true);
-				if (Properties.Settings.Default.ExtensionConfigured)
+				if (MantisSettings.ExtensionConfigured)
 				{
 					var enums = await MantisClient.Instance.GetAllMantisEnum();
 					await lstEnums.Dispatcher.InvokeAsync(() => lstEnums.DataContext = enums);
