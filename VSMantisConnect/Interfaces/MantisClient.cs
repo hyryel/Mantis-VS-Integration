@@ -25,8 +25,8 @@ namespace VSMantisConnect.Interfaces
 			_instance = new MantisClient();
 		}
 		#endregion
-		private string _usr { get { return Properties.Settings.Default.UserName; } }
-		private string _pwd { get { return ValidatePassword(Properties.Settings.Default.Password); } }
+		private string _usr { get { return MantisSettings.UserName; } }
+		private string _pwd { get { return ValidatePassword(MantisSettings.Password); } }
 		private MantisClient()
 		{
 		}
@@ -51,9 +51,9 @@ namespace VSMantisConnect.Interfaces
 
 			System.ServiceModel.Channels.Binding b = new BasicHttpBinding();
 			
-			if (Properties.Settings.Default.ExtensionConfigured)
+			if (MantisSettings.ExtensionConfigured)
 			{
-				Uri baseUrl = new Uri(Properties.Settings.Default.BaseUrl);
+				Uri baseUrl = new Uri(MantisSettings.BaseURL);
 				if (baseUrl.Scheme.Equals("http", StringComparison.InvariantCultureIgnoreCase))
 				{
 					b = new BasicHttpBinding();
@@ -225,19 +225,19 @@ namespace VSMantisConnect.Interfaces
 			get
 			{
 				string completeUri = "";
-				if (!Properties.Settings.Default.BaseUrl.EndsWith("/") && !Properties.Settings.Default.EndPointAddress.StartsWith("/"))
+				if (!MantisSettings.BaseURL.EndsWith("/") && !MantisSettings.EndPointAddress.StartsWith("/"))
 				{
-					completeUri = Properties.Settings.Default.BaseUrl + "/" + Properties.Settings.Default.EndPointAddress;
+					completeUri = MantisSettings.BaseURL + "/" + MantisSettings.EndPointAddress;
 				}
 				else
 				{
-					if (Properties.Settings.Default.BaseUrl.EndsWith("/") && Properties.Settings.Default.EndPointAddress.StartsWith("/"))
+					if (MantisSettings.BaseURL.EndsWith("/") && MantisSettings.EndPointAddress.StartsWith("/"))
 					{
-						completeUri = Properties.Settings.Default.BaseUrl.Substring(0, Properties.Settings.Default.BaseUrl.Length - 1) + Properties.Settings.Default.EndPointAddress;
+						completeUri = MantisSettings.BaseURL.Substring(0, MantisSettings.BaseURL.Length - 1) + MantisSettings.EndPointAddress;
 					}
 					else
 					{
-						completeUri = Properties.Settings.Default.BaseUrl + Properties.Settings.Default.EndPointAddress;
+						completeUri = MantisSettings.BaseURL + MantisSettings.EndPointAddress;
 					}
 				}
 				return new EndpointAddress(completeUri);

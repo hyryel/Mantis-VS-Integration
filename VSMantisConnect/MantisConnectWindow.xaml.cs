@@ -50,7 +50,6 @@ namespace VSMantisConnect
 		}
 		private async void cbxViewSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-
 			try
 			{
 				if (e.AddedItems.Count <= 0)
@@ -63,7 +62,7 @@ namespace VSMantisConnect
 				if (!(v as IView).Initialized)
 				{
 					OnUpdateStatus(LocalizationHelper.GetString("MantisConnectWindowViewInitializing", (v as IView).DisplayName), 0, true);
-					if (Properties.Settings.Default.ExtensionConfigured)
+					if (MantisSettings.ExtensionConfigured)
 					{
 						var ex = await (v as IView).InitializeData();
 						if (ex != null)

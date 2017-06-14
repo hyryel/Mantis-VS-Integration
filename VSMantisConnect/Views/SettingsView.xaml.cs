@@ -73,24 +73,25 @@ namespace VSMantisConnect.Views
 			OnUpdateStatus(LocalizationHelper.GetString("SettingsViewLoading"), 0, true);
 			try
 			{
-				this.Dispatcher.InvokeAsync(() =>
+				await this.Dispatcher.InvokeAsync(() =>
 				{
+                    MantisSettings.LoadFromConfigurationFile();
 					cbxLanguage.DataContext = new CultureInfo[] { new CultureInfo("fr"), new CultureInfo("en") };
-					cbxLanguage.SelectedItem = Properties.Settings.Default.Language;
-					tbxBaseUrl.Text = Properties.Settings.Default.BaseUrl;
+					cbxLanguage.SelectedItem = MantisSettings.Language;
+					tbxBaseUrl.Text = MantisSettings.BaseURL;
 					tbxEndPointAddress.Text = "/api/soap/mantisconnect.php";
-					if (Properties.Settings.Default.CustomizeEndPointAddress)
+					if (MantisSettings.CustomizeEndPoint)
 					{
-						tbxEndPointAddress.Text = Properties.Settings.Default.EndPointAddress;
+						tbxEndPointAddress.Text = MantisSettings.EndPointAddress;
 					}
 					tbxPassword.Password = "";
-					if (Properties.Settings.Default.SavePassword)
+					if (MantisSettings.SavePassword)
 					{
-						tbxPassword.Password = Properties.Settings.Default.Password;
+						tbxPassword.Password = MantisSettings.Password;
 					}
-					tbxUsername.Text = Properties.Settings.Default.UserName;
-					ckbCustomizeEndPoint.IsChecked = Properties.Settings.Default.CustomizeEndPointAddress;
-					ckbSavePassword.IsChecked = Properties.Settings.Default.SavePassword;
+					tbxUsername.Text = MantisSettings.UserName;
+					ckbCustomizeEndPoint.IsChecked = MantisSettings.CustomizeEndPoint;
+					ckbSavePassword.IsChecked = MantisSettings.SavePassword;
 					HasChanged = false;
 					OnUpdateStatus(LocalizationHelper.GetString("SettingsViewLoaded"), 0, false);
 					_initialized = true;
@@ -116,30 +117,30 @@ namespace VSMantisConnect.Views
 		{
 			try
 			{
-				Properties.Settings.Default.BaseUrl = tbxBaseUrl.Text;
-				Properties.Settings.Default.CustomizeEndPointAddress = ckbCustomizeEndPoint.IsChecked.Value;
+				MantisSettings.BaseURL = tbxBaseUrl.Text;
+                MantisSettings.CustomizeEndPoint = ckbCustomizeEndPoint.IsChecked.Value;
 				if (ckbCustomizeEndPoint.IsChecked.Value)
 				{
-					Properties.Settings.Default.EndPointAddress = tbxEndPointAddress.Text;
+                    MantisSettings.EndPointAddress = tbxEndPointAddress.Text;
 				}
 				else
 				{
-					Properties.Settings.Default.EndPointAddress = "/api/soap/mantisconnect.php";
+                    MantisSettings.EndPointAddress = "/api/soap/mantisconnect.php";
 				}
-				Properties.Settings.Default.ExtensionConfigured = true;
-				Properties.Settings.Default.Language = cbxLanguage.SelectedItem as CultureInfo;
+                MantisSettings.ExtensionConfigured = true;
+                MantisSettings.Language = cbxLanguage.SelectedItem as CultureInfo;
 				if (ckbSavePassword.IsChecked.Value)
 				{
-					//TODO : encrypt password and create GetPassword and SetPassword
-					Properties.Settings.Default.Password = tbxPassword.Password;
+                    //TODO : encrypt password and create GetPassword and SetPassword
+                    MantisSettings.Password = tbxPassword.Password;
 				}
 				else
 				{
-					Properties.Settings.Default.Password = "";
+                    MantisSettings.Password = "";
 				}
-				Properties.Settings.Default.SavePassword = ckbSavePassword.IsChecked.Value;
-				Properties.Settings.Default.UserName = tbxUsername.Text;
-				Properties.Settings.Default.Save();
+                MantisSettings.SavePassword = ckbSavePassword.IsChecked.Value;
+				MantisSettings.UserName = tbxUsername.Text;
+                MantisSettings.Save();
 				OnUpdateStatus(LocalizationHelper.GetString("SettingsViewSettingsSaved"), 100, false);
 				HasChanged = false;
 				if (SettingsUpdated != null)
@@ -177,7 +178,7 @@ namespace VSMantisConnect.Views
 		}
 		private void tbxPassword_PasswordChanged(object sender, RoutedEventArgs e)
 		{
-			HasChanged |= !tbxPassword.SecurePassword.Equals(Properties.Settings.Default.Password);
+			HasChanged |= !tbxPassword.SecurePassword.Equals(MantisSettings.Password);
 		}
 
 		public void LocalizeUI()
