@@ -43,6 +43,7 @@ namespace VSMantisConnect
             _store.GetBoolOrDefault(_collectionPath, "SavePassword", 0, out value);
             _savePassword = value > 0;
             _store.GetStringOrDefault(_collectionPath, "UserName", "Your Mantis username", out _userName);
+            //TODO : decrypt password SHA1
             _store.GetStringOrDefault(_collectionPath, "Password", "", out _password);
             _store.GetStringOrDefault(_collectionPath, "BaseURL", "Your Mantis base url", out _baseURL);
             _store.GetStringOrDefault(_collectionPath, "EndPointAddress", "/api/soap/mantisconnect.php", out _enPointAddress);
@@ -111,6 +112,14 @@ namespace VSMantisConnect
                 _password = value;
             }
         }
+        private static string DecryptPassword(string pwd)
+        {
+            throw new NotImplementedException();
+        }
+        private static string EncryptPassword(string pwd)
+        {
+            throw new NotImplementedException();
+        }
         private static string _baseURL;
         public static string BaseURL
         {
@@ -158,6 +167,7 @@ namespace VSMantisConnect
                 _store.SetString(_collectionPath, "UserName", _userName);
                 if (_savePassword)
                 {
+                    //encrypt password SHA1
                     _store.SetString(_collectionPath, "Password", _password);
                 }
                 else
